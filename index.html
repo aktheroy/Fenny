@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chatbot</title>
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+</head>
+<div id="currencies-container" class="currencies-container"></div>
+
+<script>
+    const container = document.getElementById("currencies-container");
+    const icons = [
+        '<i class="bx bx-dollar"></i>',
+        '<i class="bx bx-euro"></i>',
+        '<i class="bx bx-pound"></i>',
+        '<i class="bx bx-yen"></i>',
+        '<i class="bx bx-bitcoin"></i>',
+        '<i class="bx bx-ruble"></i>',
+        '<i class="bx bx-won"></i>',
+        '<i class="bx bx-rupee"></i>',
+    ];
+
+    // Function to shuffle the icons array
+    function shuffle(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
+    }
+
+    for (let i = 0; i < 10; i++) {
+        const shuffledIcons = shuffle([...icons]); // Shuffle a copy of the icons array
+        const currencyRow = document.createElement("div");
+        currencyRow.className = "currency";
+
+        // Repeat the shuffled icons enough times to fill the row
+        currencyRow.innerHTML = `
+    <div class="currency-slide ${i % 2 === 1 ? "reverse" : ""}">
+      ${shuffledIcons.join("").repeat(5)}
+    </div>
+  `;
+        container.appendChild(currencyRow);
+    }
+
+</script>
+
+
+<button id="chatbot-toggle">
+    <i class="bx bx-dollar-circle bx-lg"></i>
+</button>
+<div id="chatbot" class="chatbot-container collapsed">
+    <div class="chatbot-header">
+        <span>Chatbot</span>
+        <button class="minimize-btn" id="minimize-btn">
+            <i class="bx bx-chevron-down"></i>
+        </button>
+    </div>
+    <div class="chatbot-messages" id="message-box"></div>
+    <div class="chatbot-input-area">
+        <div class="input-container">
+            <label for="file-upload" class="file-upload-icon">
+                <i class="bx bxs-plus-circle"></i>
+            </label>
+            <input type="file" id="file-upload" class="file-input" accept="application/pdf" />
+            <textarea class="message-input" id="message" placeholder="Type your message..."> </textarea>
+            <button class="send-btn" onclick="send()">
+                <i class="bx bxs-chevrons-right"></i>
+            </button>
+        </div>
+    </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+
+</html>

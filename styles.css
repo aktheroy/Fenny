@@ -1,0 +1,341 @@
+/* General Reset */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Nunito", sans-serif;
+}
+
+body {
+  background: #1f1f87;
+}
+
+/* Chatbot Toggle Button */
+#chatbot-toggle {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: #007bff;
+  color: white;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 10;
+}
+
+/* Chatbot Container */
+.chatbot-container {
+  position: fixed;
+  bottom: 100px;
+  right: 20px;
+  width: 400px;
+  height: 500px;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(15px);
+  border: 2px solid rgba(255, 255, 255, 0.18);
+  border-radius: 16px;
+  overflow: hidden;
+  transition: all 0.5s;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  opacity: 1;
+  z-index: 9;
+}
+
+.collapsed {
+  width: 0;
+  height: 0;
+  opacity: 0;
+}
+
+/* Chatbot Header */
+.chatbot-header {
+  padding: 10px;
+  background: #3d3d3d00;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Chatbot Messages */
+.chatbot-messages {
+  padding: 10px;
+  height: calc(100% - 120px);
+  overflow-y: auto;
+}
+
+/* Chatbot Input Area */
+.chatbot-input-area {
+  padding: 10px;
+  background: rgba(0, 0, 0, 0);
+}
+
+.input-container {
+  display: flex;
+  align-items: end;
+  border: 1px solid #ddd;
+  border-radius: 20px;
+  padding: 5px 10px;
+  background: white;
+}
+
+.message-input {
+  flex-grow: 1; /* Allows it to take available space in the container */
+  border: none;
+  padding: 10px;
+  font-size: 14px;
+  border-radius: 20px;
+  background: transparent;
+  resize: none; /* Prevents manual resizing by the user */
+  overflow-y: auto; /* Enables vertical scrolling for long messages */
+  max-height: 100px; /* Limits the height to prevent overflowing the UI */
+  height: 40px; /* Initial height */
+  width: 100%; /* Ensures it spans the container width */
+}
+
+.message-input:focus {
+  outline: none;
+  background: #f8f9fa; /* Optional: Add a subtle focus background */
+}
+
+.file-input {
+  display: none;
+}
+
+.send-btn {
+  border: none;
+  background: none;
+  font-size: 30px;
+  color: #007bff;
+  margin-left: 10px;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.send-btn:hover i {
+  color: #0056b3;
+}
+
+.file-upload-icon {
+  cursor: pointer;
+  display: flow;
+  margin-right: 10px;
+  font-size: 30px;
+  color: #007bff;
+  /* Blue for file attachment */
+  transition: color 0.3s ease;
+}
+
+.file-upload-icon:hover i {
+  color: #0056b3;
+  /* Darker blue on hover */
+}
+
+.file-input {
+  display: none;
+  /* Hide the default file input */
+}
+
+.minimize-btn {
+  border: none;
+  background: none;
+  /* Remove background color */
+  cursor: pointer;
+}
+
+.minimize-btn i {
+  font-size: 24px;
+  color: #ffc107;
+  /* Yellow color */
+  transition: color 0.3s ease;
+}
+
+.minimize-btn:hover i {
+  color: #e0a800;
+  /* Darker yellow on hover */
+}
+
+/* Bounce animation */
+@keyframes bounce {
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
+    transform: translateY(0);
+  }
+
+  40% {
+    transform: translateY(-10px);
+  }
+
+  60% {
+    transform: translateY(-5px);
+  }
+}
+
+/* Apply bounce animation to the circle toggle button */
+#chatbot-toggle {
+  animation: bounce 2s infinite;
+}
+
+/* User message styling */
+.chat-message-sent {
+  background-color: #007bff;
+  color: white;
+  align-self: flex-end;
+  padding: 10px 10px;
+  border-radius: 18px;
+  max-width: 70%;
+  margin: 8px 0;
+  animation: fadeIn 0.3s ease-in;
+}
+
+/* Bot response styling */
+.chat-message-received {
+  background-color: #e6f2ff;
+  color: black;
+  align-self: flex-start;
+  padding: 10px 10px;
+  border-radius: 18px;
+  max-width: 70%;
+  margin: 8px 0;
+  animation: fadeIn 0.3s ease-in;
+}
+
+/* Center alignment for chat message div */
+.chat-message-div {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+/* Fade-in effect for new messages */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+/* Ensure that messages scroll to the bottom */
+#message-box {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  overflow-y: auto;
+  padding: 10px;
+  max-height: 400px;
+}
+
+/* Styling for the timestamp */
+.timestamp {
+  font-size: 10px;
+  color: #aaa;
+  position: absolute;
+  bottom: -12px;
+  right: 5px;
+}
+
+/* Timestamp Styling */
+.chat-message-div {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 10px;
+  position: relative;
+}
+
+.chat-message-sent,
+.chat-message-received {
+  padding: 10px 20px;
+  border-radius: 15px;
+  max-width: 70%;
+  margin: 8px 0;
+  animation: fadeIn 0.3s ease-in;
+  position: relative;
+  word-wrap: break-word; /* Ensure long words or URLs break into the next line */
+  overflow-wrap: break-word; /* Additional support for breaking long words */
+  white-space: pre-wrap; /* Preserve spaces and line breaks */
+  position: relative;
+}
+
+/* Styling for the timestamp */
+.timestamp {
+  font-size: 10px;
+  color: #aaa;
+  position: absolute;
+  bottom: -14px;
+  right: 5px;
+}
+
+/* Scrolling Container */
+.currency {
+  overflow: hidden;
+  padding: 20px 0;
+  white-space: nowrap;
+  position: relative;
+}
+
+.currency:before,
+.currency:after {
+  position: absolute;
+  top: 0;
+  width: 100px;
+  height: 100%;
+  content: "";
+  z-index: 2;
+}
+
+.currency:before {
+  left: 0;
+  background: linear-gradient(to left, rgba(255, 255, 255, 0), #1f1f87);
+}
+
+.currency:after {
+  right: 0;
+  background: linear-gradient(to right, rgba(255, 255, 255, 0), #1f1f87);
+}
+
+/* Currency Slides */
+.currency-slide {
+  display: inline-flex;
+  animation: slide 50s infinite linear;
+}
+
+.currency-slide i {
+  font-size: 50px;
+  margin: 0 20px;
+  color: #007bff;
+  transition: transform 0.2s, color 0.2s;
+}
+
+.currency-slide.reverse {
+  animation-direction: reverse;
+}
+
+/* Hover Effects */
+.currency-slide i:hover {
+  transform: scale(1.8);
+  color: var(--random-hover-color);
+}
+
+/* Animation Keyframes */
+@keyframes slide {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
