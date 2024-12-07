@@ -3,7 +3,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const chatbot = document.getElementById("chatbot");
   const messageInput = document.getElementById("message");
   const messageBox = document.getElementById("message-box");
+  const maximizeBtn = document.getElementById("maximize-btn");
   const minimizeBtn = document.querySelector(".minimize-btn");
+  const fileInput = document.getElementById("file-upload");
+  const fileDisplay = document.getElementById("file-display");
 
   // Start the bounce animation on the chatbot toggle button
   chatbotToggle.classList.add("bounce");
@@ -20,6 +23,16 @@ document.addEventListener("DOMContentLoaded", () => {
   minimizeBtn.addEventListener("click", () => {
     chatbot.classList.toggle("collapsed");
     chatbotToggle.classList.add("bounce");
+  });
+
+  maximizeBtn.addEventListener("click", () => {
+    if (chatbot.classList.contains("maximized")) {
+      chatbot.classList.remove("maximized");
+      maximizeBtn.querySelector("i").classList.replace("bx-minus", "bx-plus");
+    } else {
+      chatbot.classList.add("maximized");
+      maximizeBtn.querySelector("i").classList.replace("bx-plus", "bx-minus");
+    }
   });
 
   // Send message when the send button is clicked or Enter key is pressed
@@ -114,3 +127,72 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 });
+
+const fileInput = document.getElementById("file-upload");
+const fileUploadDisplay = document.getElementById("file-upload-display");
+const fileUploadProgress = document.getElementById("file-upload-progress");
+
+// Handle file selection
+fileInput.addEventListener("change", (event) => {
+  const file = event.target.files[0];
+
+  if (!file) return;
+
+  // Validate file type and size
+  if (file.type !== "application/pdf") {
+    alert("Only PDF files are allowed.");
+    fileInput.value = ""; // Clear invalid file input
+    return;
+  }
+
+  if (file.size > 2 * 1024 * 1024) {
+    alert("File size must be less than 2MB.");
+    fileInput.value = ""; // Clear large file input
+    return;
+  }
+
+  // Show the file upload display and progress bar
+  fileUploadDisplay.classList.remove("hidden");
+  fileUploadProgress.classList.remove("hidden");
+  fileUploadProgress.style.width = "0"; // Reset progress bar width
+
+  // Simulate upload progress
+  let progress = 0;
+  const progressInterval = setInterval(() => {
+    progress += 10; // Increment progress
+    fileUploadProgress.style.width = `${progress}%`;
+
+    if (progress >= 100) {
+      clearInterval(progressInterval); // Stop the animation
+      fileUploadProgress.classList.add("hidden"); // Hide progress bar
+    }
+  }, 300); // Adjust speed of progress
+});
+
+// Remove the selected file
+function removeFile() {
+  fileInput.value = ""; // Clear the file input
+  fileUploadDisplay.classList.add("hidden"); // Hide file upload display
+  fileUploadProgress.classList.add("hidden"); // Hide progress bar
+}
+
+// Send message or process file
+function send() {
+  const message = messageInput.value.trim();
+
+  // If a file is attached, process it
+  if (fileInput.files[0]) {
+    const fileName = fileInput.files[0].name;
+
+    // Display the file as a message in the chat (you can adjust this logic)
+    addMessage(`File uploaded: ${fileName}`, "chat-message-sent");
+    fileInput.value = ""; // Clear the file input
+    fileUploadDisplay.classList.add("hidden"); // Hide file upload display
+  }
+
+  // If a message is entered, send it
+  if (message) {
+    addMessage(message, "chat-message-sent");
+    messageInput.value = ""; // Clear the input field
+  }
+}
