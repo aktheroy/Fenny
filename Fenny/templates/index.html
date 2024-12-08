@@ -20,8 +20,16 @@
 
   <!-- Chatbot Container -->
   <div id="chatbot" class="chatbot-container collapsed">
+    <!-- Header Section -->
     <div class="chatbot-header">
-      <span>Fenny</span>
+      <div class="header-left">
+        <!-- Glowing Icon and Title -->
+        <i class="bx bx-brain glowing-icon"></i>
+        <div class="header-text">
+          <span class="header-title">Fenny</span>
+          <span class="header-subtitle">- Your Personal Financial Assistant</span>
+        </div>
+      </div>
       <div class="chatbot-controls">
         <!-- Maximize Button -->
         <button class="maximize-btn" id="maximize-btn">
@@ -33,6 +41,7 @@
         </button>
       </div>
     </div>
+    
 
     <!-- Chat Messages -->
     <div class="chatbot-messages" id="message-box"></div>
@@ -45,10 +54,12 @@
           <div class="file-upload-content">
             <i class="bx bxs-file-pdf pdf-icon"></i>
             <button class="remove-file-btn" onclick="removeFile()">
-              <i class='bx bxs-x-circle'></i>
+              <i class="bx bxs-x-circle"></i>
             </button>
+            <div id="file-upload-progress" class="file-upload-progress hidden">
+              <span id="progress-percentage" class="progress-percentage">0%</span>
+            </div>
           </div>
-          <div id="file-upload-progress" class="file-upload-progress hidden"></div>
         </div>
 
         <!-- File Upload Input -->

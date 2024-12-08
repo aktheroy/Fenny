@@ -35,8 +35,8 @@ body {
   position: fixed;
   bottom: 100px;
   right: 20px;
-  width: 600px;
-  height: 500px;
+  width: calc(40% - 140px);
+  height: calc(60% - 140px);
   background: rgba(255, 255, 255, 0.15);
   backdrop-filter: blur(15px);
   border: 2px solid rgba(255, 255, 255, 0.18);
@@ -49,8 +49,8 @@ body {
 }
 
 .chatbot-container.maximized {
-  width: 60%;
-  height: 60%;
+  width: 80%;
+  height: 80%;
   bottom: 100px;
   right: 20px;
   border-radius: 20px;
@@ -62,26 +62,111 @@ body {
   opacity: 0;
 }
 
-/* Chatbot Header */
+/* Chatbot Header Styling */
 .chatbot-header {
-  padding: 10px;
-  background: #3d3d3d00;
-  color: white;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 8px;
+  color: white; /* Text color */
+
+}
+
+/* Left Section: Icon and Text */
+.header-left {
+  display: flex;
+  align-items: center;
+}
+
+/* Glowing Icon Effect */
+.glowing-icon {
+  font-size: 40px; /* Adjust size to fit well with the title */
+  margin-right: 10px; /* Space between icon and title */
+  background: linear-gradient(180deg, #ff6ec4, #7873f5);
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: glow 2s infinite alternate;
+}
+
+/* Header Title and Subtitle */
+.header-content {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-content: space-between;
+  justify-content: center;
+  flex-direction: row; /* Stack title and subtitle vertically */
+  
+}
+/* Header Text: Title and Subtitle */
+.header-text {
+  display: flex;
+  flex-direction: column; /* Stack title and subtitle vertically */
+}
+
+.header-title {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.header-subtitle {
+  font-size: 14px;
+  font-style: italic;
+  color: #ccc; /* Subtle color for subtitle */
+  margin-bottom: 12px;
+}
+/* Right Section: Controls */
+.chatbot-controls {
+  display: flex;
+  gap: 8px; /* Space between buttons */
+}
+
+.minimize-btn,
+.maximize-btn {
+  
+  border: none;
+  background: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.minimize-btn i {
+  font-size: 30px;
+  color: #8c8980;
+  /* Yellow for minimise */
+  transition: color 0.3s ease;
+}
+
+.minimize-btn:hover i {
+  color: #ffd900;
+  /* Darker yellow on hover */
+}
+
+.maximize-btn i {
+  font-size: 30px;
+  color: #8c8980;
+  /* Green for maximise */
+  transition: color 0.3s ease;
+}
+
+.maximize-btn:hover i {
+  color: #16b438;
+  /* Darker green on hover */
 }
 
 /* Chatbot Messages */
 .chatbot-messages {
-  padding: 10px;
-  height: calc(100% - 120px);
+  padding: 8px;
+  height: calc(100% - 140px);
   overflow-y: auto;
 }
 
 /* Chatbot Input Area */
 .chatbot-input-area {
-  padding: 10px;
+  padding: 8px;
   background: rgba(0, 0, 0, 0);
 }
 
@@ -120,10 +205,6 @@ body {
   /* Optional: Add a subtle focus background */
 }
 
-.file-input {
-  display: none;
-}
-
 .send-btn {
   border: none;
   background: none;
@@ -139,7 +220,7 @@ body {
 }
 
 .file-upload-icon {
-  cursor: pointer;
+  cursor: cell;
   display: flow;
   margin-right: 10px;
   font-size: 30px;
@@ -158,20 +239,15 @@ body {
   /* Hide the default file input */
 }
 
-
 /* File Upload Display */
 .file-upload-display {
-  position: relative;
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 4px 8px;
-  background: rgba(255, 255, 255, 0);
+  position: relative;
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.8);
   border-radius: 12px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  font-size: 14px;
-  color: #333;
-  margin-right: 10px;
 }
 
 .file-upload-display.hidden {
@@ -179,121 +255,59 @@ body {
 }
 
 .pdf-icon {
-  font-size: 24px;
+  font-size: 20px;
   color: #e74c3c; /* Red for PDF icon */
+  z-index: 3;
 }
 
 /* File Upload Progress Bar */
 .file-upload-progress {
-  height: 5px;
-  background: linear-gradient(to right, #007bff, #1f86ff);
-  width: 0; /* Start with no progress */
-  border-radius: 3px;
-  transition: width 0.5s ease;
+  position: absolute;
+  background: #0adf0e; /* Semi-transparent blue */
+  z-index: 5; /* Ensure it is below the icon but above the content background */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  transition: width 0.1s ease; /* Smooth width transition */
 }
 
 .file-upload-progress.hidden {
   display: none;
 }
 
-.file-upload-display {
-  position: relative;
+/* File Upload Content */
+.file-upload-content {
+  position: static; /* Establish a positioning context for child elements */
   display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: 5px;
-  padding: 10px;
-  background: rgba(255, 255, 255, 0.8);
+  justify-content: flex-start;
   border-radius: 12px;
+  overflow: hidden; /* Ensures progress bar stays within bounds */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.file-upload-content {
-  position: relative;
-  display: flex;
-  align-items: center;
-}
-
-.pdf-icon {
-  font-size: 24px;
-  color: #e74c3c; /* Red for PDF icon */
+.progress-percentage {
+  font-size: 10px;
+  color: #0307fb;
+  font-weight: bold;
+  z-index: 4;
 }
 
 .remove-file-btn {
   position: absolute;
-  top: -5px;
-  right: -5px;
+  top: 0px;
+  right: 0px;
   background: none;
   border: none;
   font-size: 14px;
-  color: #e74c3c; /* Red for remove */
+  color: #731004; /* Red for remove */
   cursor: pointer;
 }
 
 .remove-file-btn:hover {
-  color: #c0392b; /* Darker red on hover */
+  color: #fd1b02; /* Darker red on hover */
 }
-
-
-/* Hide default file input */
-.file-input {
-  display: none;
-}
-
-/* File Upload Icon Styling */
-.file-upload-icon {
-  cursor: pointer;
-  font-size: 30px;
-  color: #007bff; /* Blue for file attachment */
-  margin-right: 10px;
-}
-
-.file-upload-icon:hover i {
-  color: #0056b3; /* Darker blue on hover */
-}
-
-
-.chatbot-controls {
-  display: flex;
-  gap: 2px;
-  /* Space between buttons */
-}
-
-.minimize-btn,
-.maximize-btn {
-  border: none;
-  background: none;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.minimize-btn i {
-  font-size: 24px;
-  color: #ffc107;
-  /* Yellow for minimise */
-  transition: color 0.3s ease;
-}
-
-.minimize-btn:hover i {
-  color: #e0a800;
-  /* Darker yellow on hover */
-}
-
-.maximize-btn i {
-  font-size: 24px;
-  color: #28a745;
-  /* Green for maximise */
-  transition: color 0.3s ease;
-}
-
-.maximize-btn:hover i {
-  color: #218838;
-  /* Darker green on hover */
-}
-
-
 
 /* Apply bounce animation to the circle toggle button */
 #chatbot-toggle {
@@ -320,14 +334,6 @@ body {
   animation: fadeIn 0.3s ease-in;
 }
 
-/* Center alignment for chat message div */
-.chat-message-div {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-}
-
-
 /* Ensure that messages scroll to the bottom */
 #message-box {
   display: flex;
@@ -342,13 +348,12 @@ body {
   font-size: 10px;
   color: #aaa;
   position: absolute;
-  bottom: -12px;
-  right: 5px;
+  bottom: -18px;
+  right: 6px;
 }
 
 /* Timestamp Styling */
 .chat-message-div {
-  display: flex;
   flex-direction: column;
   align-items: flex-start;
   margin-bottom: 10px;
@@ -357,10 +362,10 @@ body {
 
 .chat-message-sent,
 .chat-message-received {
-  padding: 10px 10px;
+  padding: 8px 8px;
   border-radius: 20px;
   max-width: 70%;
-  margin: 8px 0;
+  margin: 20px 0;
   animation: fadeIn 0.3s ease-in;
   position: relative;
   word-wrap: break-word;
@@ -370,15 +375,6 @@ body {
   white-space: pre-wrap;
   /* Preserve spaces and line breaks */
   position: relative;
-}
-
-/* Styling for the timestamp */
-.timestamp {
-  font-size: 10px;
-  color: #aaa;
-  position: absolute;
-  bottom: -14px;
-  right: 5px;
 }
 
 /* Scrolling Container */
@@ -432,7 +428,6 @@ body {
   color: var(--random-hover-color);
 }
 
-
 /* Fade-in effect for new messages */
 @keyframes fadeIn {
   from {
@@ -457,7 +452,6 @@ body {
 
 /* Bounce animation */
 @keyframes bounce {
-
   0%,
   20%,
   50%,
@@ -472,5 +466,78 @@ body {
 
   60% {
     transform: translateY(-5px);
+  }
+}
+
+
+/* Glow Animation */
+@keyframes glow {
+  0% {
+    text-shadow: 0 0 5px #ff6ec4, 0 0 10px #7873f5, 0 0 15px #ff6ec4;
+  }
+  100% {
+    text-shadow: 0 0 20px #ff6ec4, 0 0 30px #7873f5, 0 0 40px #ff6ec4;
+  }
+}
+
+/* Mobile screens */
+@media (max-width: 767px) {
+  .chatbot-container {
+    width: 90%;
+    height: 400px;
+    bottom: 100px;
+    right: 5%;
+  }
+
+  .header-title {
+    font-size: 16px;
+  }
+
+  .header-subtitle {
+    font-size: 12px;
+  }
+
+  .header-content {
+    display: flex;
+    flex-direction: column; /* Stack icon and text */
+    align-items: center;
+    text-align: center;
+  }
+
+  .chatbot-controls {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .message-input {
+    font-size: 12px; /* Smaller font on mobile */
+    padding: 8px;
+  }
+
+  .file-upload-icon {
+    font-size: 25px; /* Smaller icon on mobile */
+  }
+}
+
+/* Tablet screens */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .chatbot-container {
+    width: 70%;
+    height: 450px;
+    bottom: 30px;
+    right: 15%;
+  }
+
+  .header-title {
+    font-size: 18px;
+  }
+
+  .header-subtitle {
+    font-size: 14px;
+  }
+
+  .message-input {
+    font-size: 14px; /* Adjust for tablet screens */
+    padding: 10px;
   }
 }
