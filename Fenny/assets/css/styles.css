@@ -202,26 +202,26 @@ body {
 }
 
 .minimize-btn i {
-  font-size: 30px;
+  font-size: 24px;
   color: #8c8980;
   /* Yellow for minimise */
   transition: color 0.3s ease;
 }
 
 .minimize-btn:hover i {
-  color: #ffd900;
+  color: #f7b11a;
   /* Darker yellow on hover */
 }
 
 .maximize-btn i {
-  font-size: 30px;
+  font-size: 24px;
   color: #8c8980;
   /* Green for maximise */
   transition: color 0.3s ease;
 }
 
 .maximize-btn:hover i {
-  color: #16b438;
+  color: #1ce73a;
   /* Darker green on hover */
 }
 
