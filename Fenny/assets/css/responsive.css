@@ -1,7 +1,7 @@
 /* Mobile screens */
 @media (max-width: 767px) {
   .chatbot-container {
-    width: 80%;
+    width: 50%;
     height: calc(60% - 140px);
     bottom: 100px;
     right: 5%;
@@ -43,7 +43,7 @@
 /* Tablet screens */
 @media (min-width: 768px) and (max-width: 1024px) {
   .chatbot-container {
-    width: calc(80% - 100px);
+    width: calc(52% - 100px);
     height: calc(60% - 140px);
     bottom: 100px;
     right: 2%;
