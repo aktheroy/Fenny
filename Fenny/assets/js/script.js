@@ -2,6 +2,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // DOM Elements
   const chatbotToggle = document.getElementById("chatbot-toggle");
   const chatbot = document.getElementById("chatbot");
+  const socialIcons = document.getElementById("social-icons");
   const messageInput = document.getElementById("message");
   const messageBox = document.getElementById("message-box");
   const maximizeBtn = document.getElementById("maximize-btn");
@@ -18,16 +19,16 @@ document.addEventListener("DOMContentLoaded", () => {
   // Toggle chatbot visibility
   chatbotToggle.addEventListener("click", () => {
     chatbot.classList.toggle("collapsed");
-    chatbotToggle.classList.toggle(
-      "bounce",
-      chatbot.classList.contains("collapsed")
+    socialIcons.classList.toggle(
+      "visible",
+      !chatbot.classList.contains("collapsed")
     );
   });
 
   // Minimize chatbot
   minimizeBtn.addEventListener("click", () => {
     chatbot.classList.toggle("collapsed");
-    chatbotToggle.classList.add("bounce");
+    socialIcons.classList.remove("visible");
   });
 
   // Maximize chatbot
@@ -89,12 +90,11 @@ document.addEventListener("DOMContentLoaded", () => {
     if (message) {
       addMessage(message, "chat-message-sent");
 
-
-       // Fake bot response (this can be replaced with real logic later)
-       setTimeout(() => addMessage(`Bot: ${message}`, "chat-message-received"), 1000);
-
-
-
+      // Fake bot response (this can be replaced with real logic later)
+      setTimeout(
+        () => addMessage(`Bot: ${message}`, "chat-message-received"),
+        1000
+      );
 
       messageInput.value = ""; // Clear the input field
     }
@@ -108,11 +108,11 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-   // Attach event listener to the Send button
-   const sendButton = document.querySelector(".send-btn");
-   sendButton.addEventListener("click", () => {
-     send(); // Trigger the send function when the send button is clicked
-   });
+  // Attach event listener to the Send button
+  const sendButton = document.querySelector(".send-btn");
+  sendButton.addEventListener("click", () => {
+    send(); // Trigger the send function when the send button is clicked
+  });
 
   // Handle file uploads
   fileInput.addEventListener("change", (event) => {
@@ -160,18 +160,17 @@ document.addEventListener("DOMContentLoaded", () => {
   window.removeFile = function () {
     // Clear the file input
     fileInput.value = ""; // Reset the input value to clear the file
-  
+
     // Hide the file upload display and progress bar
     fileUploadDisplay.classList.add("hidden");
     fileUploadProgress.classList.add("hidden");
-  
+
     // Reset progress bar and percentage text
     fileUploadProgress.style.width = "0";
     progressPercentage.textContent = "0%";
-  
+
     console.log("File removed successfully");
   };
-  
 
   // Handle hover effects for currency icons
   function getRandomColor() {

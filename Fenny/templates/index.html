@@ -4,20 +4,33 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Chatbot</title>
+  <title>Financial Assistant Bot</title>
+  <link rel="icon" type="image/x-icon" href="../assets/images/pound.png" />
   <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="../assets/css/styles.css" />
+  <link rel="stylesheet" href="../assets/css/responsive.css" />
+  <link rel="stylesheet" href="../assets/css/currency.css" />
 </head>
 
 <body>
   <!-- Currency Container -->
   <div id="currencies-container" class="currencies-container"></div>
-
   <!-- Chatbot Toggle Button -->
-  <button id="chatbot-toggle">
+  <div id="chatbot-toggle" class="circle-toggle">
     <i class="bx bx-dollar-circle bx-lg"></i>
-  </button>
-
+  </div>
+  <!-- Social Icons -->
+  <div class="social-icons hidden" id="social-icons">
+    <a href="https://github.com/yourusername" target="_blank" class="social-link">
+      <i class="bx bxl-github bx-border-circle"></i>
+    </a>
+    <a href="https://www.linkedin.com/in/yourusername" target="_blank" class="social-link">
+      <i class="bx bxl-linkedin bx-border-circle"></i>
+    </a>
+    <a href="path/to/your/resume.pdf" download class="social-link">
+      <i class="bx bxs-file-pdf bx-border-circle"></i>
+    </a>
+  </div>
   <!-- Chatbot Container -->
   <div id="chatbot" class="chatbot-container collapsed">
     <!-- Header Section -->
@@ -41,11 +54,8 @@
         </button>
       </div>
     </div>
-    
-
     <!-- Chat Messages -->
     <div class="chatbot-messages" id="message-box"></div>
-
     <!-- Input Area -->
     <div class="chatbot-input-area">
       <div class="input-container">

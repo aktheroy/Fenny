@@ -30,12 +30,74 @@ body {
   z-index: 10;
 }
 
+/* Social Icons Container */
+.social-icons {
+  position: fixed;
+  bottom: 20px;
+  right: 120px;
+  width: 120px;
+  height: 60px;
+  border-radius: 20%;
+  gap: 12px;
+  background: #00000000;
+  color: white;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  opacity: 0;
+  transform: translateX(-30px);
+  /* Start slightly hidden */
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  animation: bounce 2s infinite;
+}
+
+/* Show icons when visible */
+.social-icons.visible {
+  opacity: 1;
+  transform: translateX(0);
+  /* Slide into view */
+  pointer-events: auto;
+  /* Enable interaction */
+}
+
+/* Styling for individual social link icon */
+.social-icons a {
+  font-size: 30px;
+  color: white;
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.social-icons a:hover {
+  transform: scale(1.6);
+  /* Enlarge on hover */
+}
+
+/* Social Icon Colors */
+.social-icons .bxl-github:hover {
+  color: #98fa28;
+  /* GitHub color */
+}
+
+.social-icons .bxl-linkedin:hover {
+  color: #fefefe;
+  /* LinkedIn color */
+}
+
+.social-icons .bxs-file-pdf:hover {
+  color: #e74c3c;
+  /* PDF color */
+}
+
 /* Chatbot Container */
 .chatbot-container {
   position: fixed;
   bottom: 100px;
   right: 20px;
-  width: calc(40% - 140px);
+  width: calc(52% - 140px);
   height: calc(60% - 140px);
   background: rgba(255, 255, 255, 0.15);
   backdrop-filter: blur(15px);
@@ -68,8 +130,8 @@ body {
   justify-content: space-between;
   align-items: center;
   padding: 8px;
-  color: white; /* Text color */
-
+  color: white;
+  /* Text color */
 }
 
 /* Left Section: Icon and Text */
@@ -80,8 +142,10 @@ body {
 
 /* Glowing Icon Effect */
 .glowing-icon {
-  font-size: 40px; /* Adjust size to fit well with the title */
-  margin-right: 10px; /* Space between icon and title */
+  font-size: 40px;
+  /* Adjust size to fit well with the title */
+  margin-right: 10px;
+  /* Space between icon and title */
   background: linear-gradient(180deg, #ff6ec4, #7873f5);
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -96,13 +160,15 @@ body {
   flex-wrap: nowrap;
   align-content: space-between;
   justify-content: center;
-  flex-direction: row; /* Stack title and subtitle vertically */
-  
+  flex-direction: row;
+  /* Stack title and subtitle vertically */
 }
+
 /* Header Text: Title and Subtitle */
 .header-text {
   display: flex;
-  flex-direction: column; /* Stack title and subtitle vertically */
+  flex-direction: column;
+  /* Stack title and subtitle vertically */
 }
 
 .header-title {
@@ -113,18 +179,20 @@ body {
 .header-subtitle {
   font-size: 14px;
   font-style: italic;
-  color: #ccc; /* Subtle color for subtitle */
+  color: #ccc;
+  /* Subtle color for subtitle */
   margin-bottom: 12px;
 }
+
 /* Right Section: Controls */
 .chatbot-controls {
   display: flex;
-  gap: 8px; /* Space between buttons */
+  gap: 0px;
+  /* Space between buttons */
 }
 
 .minimize-btn,
 .maximize-btn {
-  
   border: none;
   background: none;
   cursor: pointer;
@@ -193,7 +261,7 @@ body {
   /* Enables vertical scrolling for long messages */
   max-height: 100px;
   /* Limits the height to prevent overflowing the UI */
-  height: 40px;
+  height: 42px;
   /* Initial height */
   width: 100%;
   /* Ensures it spans the container width */
@@ -256,20 +324,24 @@ body {
 
 .pdf-icon {
   font-size: 20px;
-  color: #e74c3c; /* Red for PDF icon */
+  color: #e74c3c;
+  /* Red for PDF icon */
   z-index: 3;
 }
 
 /* File Upload Progress Bar */
 .file-upload-progress {
   position: absolute;
-  background: #0adf0e; /* Semi-transparent blue */
-  z-index: 5; /* Ensure it is below the icon but above the content background */
+  background: #0adf0e;
+  /* Semi-transparent blue */
+  z-index: 5;
+  /* Ensure it is below the icon but above the content background */
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 12px;
-  transition: width 0.1s ease; /* Smooth width transition */
+  transition: width 0.1s ease;
+  /* Smooth width transition */
 }
 
 .file-upload-progress.hidden {
@@ -278,12 +350,14 @@ body {
 
 /* File Upload Content */
 .file-upload-content {
-  position: static; /* Establish a positioning context for child elements */
+  position: static;
+  /* Establish a positioning context for child elements */
   display: flex;
   align-items: center;
   justify-content: flex-start;
   border-radius: 12px;
-  overflow: hidden; /* Ensures progress bar stays within bounds */
+  overflow: hidden;
+  /* Ensures progress bar stays within bounds */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
@@ -301,12 +375,14 @@ body {
   background: none;
   border: none;
   font-size: 14px;
-  color: #731004; /* Red for remove */
+  color: #731004;
+  /* Red for remove */
   cursor: pointer;
 }
 
 .remove-file-btn:hover {
-  color: #fd1b02; /* Darker red on hover */
+  color: #fd1b02;
+  /* Darker red on hover */
 }
 
 /* Apply bounce animation to the circle toggle button */
@@ -377,57 +453,6 @@ body {
   position: relative;
 }
 
-/* Scrolling Container */
-.currency {
-  overflow: hidden;
-  padding: 20px 0;
-  white-space: nowrap;
-  position: relative;
-}
-
-.currency:before,
-.currency:after {
-  position: absolute;
-  top: 0;
-  width: 100px;
-  height: 100%;
-  content: "";
-  z-index: 2;
-}
-
-.currency:before {
-  left: 0;
-  background: linear-gradient(to left, rgba(255, 255, 255, 0), #1f1f87);
-}
-
-.currency:after {
-  right: 0;
-  background: linear-gradient(to right, rgba(255, 255, 255, 0), #1f1f87);
-}
-
-/* Currency Slides */
-.currency-slide {
-  display: inline-flex;
-  animation: slide 50s infinite linear;
-}
-
-.currency-slide i {
-  font-size: 50px;
-  margin: 0 20px;
-  color: #007bff;
-  transition: transform 0.2s, color 0.2s;
-}
-
-.currency-slide.reverse {
-  animation-direction: reverse;
-}
-
-/* Hover Effects */
-.currency-slide i:hover {
-  transform: scale(1.8);
-  color: var(--random-hover-color);
-}
-
 /* Fade-in effect for new messages */
 @keyframes fadeIn {
   from {
@@ -452,6 +477,7 @@ body {
 
 /* Bounce animation */
 @keyframes bounce {
+
   0%,
   20%,
   50%,
@@ -469,75 +495,13 @@ body {
   }
 }
 
-
 /* Glow Animation */
 @keyframes glow {
   0% {
     text-shadow: 0 0 5px #ff6ec4, 0 0 10px #7873f5, 0 0 15px #ff6ec4;
   }
+
   100% {
     text-shadow: 0 0 20px #ff6ec4, 0 0 30px #7873f5, 0 0 40px #ff6ec4;
-  }
-}
-
-/* Mobile screens */
-@media (max-width: 767px) {
-  .chatbot-container {
-    width: 90%;
-    height: 400px;
-    bottom: 100px;
-    right: 5%;
-  }
-
-  .header-title {
-    font-size: 16px;
-  }
-
-  .header-subtitle {
-    font-size: 12px;
-  }
-
-  .header-content {
-    display: flex;
-    flex-direction: column; /* Stack icon and text */
-    align-items: center;
-    text-align: center;
-  }
-
-  .chatbot-controls {
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  .message-input {
-    font-size: 12px; /* Smaller font on mobile */
-    padding: 8px;
-  }
-
-  .file-upload-icon {
-    font-size: 25px; /* Smaller icon on mobile */
-  }
-}
-
-/* Tablet screens */
-@media (min-width: 768px) and (max-width: 1024px) {
-  .chatbot-container {
-    width: 70%;
-    height: 450px;
-    bottom: 30px;
-    right: 15%;
-  }
-
-  .header-title {
-    font-size: 18px;
-  }
-
-  .header-subtitle {
-    font-size: 14px;
-  }
-
-  .message-input {
-    font-size: 14px; /* Adjust for tablet screens */
-    padding: 10px;
   }
 }
