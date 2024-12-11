@@ -9,6 +9,11 @@
 
 body {
   background: #1f1f87;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0
 }
 
 /* Chatbot Toggle Button */
@@ -128,8 +133,8 @@ body {
 .chatbot-header {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  padding: 8px;
+  align-items: flex-start;
+  padding: 6px;
   color: white;
   /* Text color */
 }
@@ -316,6 +321,8 @@ body {
   background: rgba(255, 255, 255, 0.8);
   border-radius: 12px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-right: 10px;
+
 }
 
 .file-upload-display.hidden {
@@ -324,9 +331,10 @@ body {
 
 .pdf-icon {
   font-size: 20px;
-  color: #e74c3c;
-  /* Red for PDF icon */
+  color: #fa2828;
+  padding-right: 4px;
   z-index: 3;
+  align-self: center;
 }
 
 /* File Upload Progress Bar */
@@ -441,16 +449,47 @@ body {
   padding: 8px 8px;
   border-radius: 20px;
   max-width: 70%;
-  margin: 20px 0;
+  margin: 12px 0;
   animation: fadeIn 0.3s ease-in;
   position: relative;
-  word-wrap: break-word;
-  /* Ensure long words or URLs break into the next line */
-  overflow-wrap: break-word;
-  /* Additional support for breaking long words */
-  white-space: pre-wrap;
-  /* Preserve spaces and line breaks */
+  word-wrap: break-word; /* Ensure long words or URLs break into the next line */
+  overflow-wrap: break-word; /* Additional support for breaking long words */
+  white-space: pre-wrap; /* Preserve spaces and line breaks */
   position: relative;
+}
+
+/* Typing Indicator */
+.typing-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.typing-indicator .dot {
+  width: 8px;
+  height: 8px;
+  background-color: #888;
+  border-radius: 50%;
+  margin: 0 4px;
+  animation: typing 1.2s infinite;
+}
+
+.typing-indicator .dot:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.typing-indicator .dot:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes typing {
+  0%, 60%, 100% {
+    transform: translateY(0);
+  }
+  30% {
+    transform: translateY(-8px);
+  }
 }
 
 /* Fade-in effect for new messages */

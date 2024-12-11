@@ -43,7 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // Add a message to the chat
-  function addMessage(text, className) {
+  function addMessage(text, className, isFile = false) {
     const div = document.createElement("div");
     div.classList.add("chat-message-div", className);
 
@@ -53,9 +53,16 @@ document.addEventListener("DOMContentLoaded", () => {
     timestampElement.classList.add("timestamp");
     timestampElement.textContent = timestamp;
 
-    // Add message text
+    // Add message text or file icon
     const messageElement = document.createElement("div");
-    messageElement.textContent = text;
+    if (isFile) {
+      const fileIcon = document.createElement("i");
+      fileIcon.classList.add("bx", "bxs-file-pdf", "pdf-icon");
+      messageElement.appendChild(fileIcon);
+      messageElement.appendChild(document.createTextNode(text));
+    } else {
+      messageElement.textContent = text;
+    }
 
     div.appendChild(messageElement);
     div.appendChild(timestampElement);
@@ -80,8 +87,8 @@ document.addEventListener("DOMContentLoaded", () => {
     if (fileInput.files[0]) {
       const fileName = fileInput.files[0].name;
 
-      // Display the file as a message
-      addMessage(`File uploaded: ${fileName}`, "chat-message-sent");
+      // Display the file as a message with file icon
+      addMessage(`File uploaded: ${fileName}`, "chat-message-sent", true);
       fileInput.value = ""; // Clear the file input
       fileUploadDisplay.classList.add("hidden"); // Hide file upload display
     }
@@ -90,14 +97,45 @@ document.addEventListener("DOMContentLoaded", () => {
     if (message) {
       addMessage(message, "chat-message-sent");
 
-      // Fake bot response (this can be replaced with real logic later)
-      setTimeout(
-        () => addMessage(`Bot: ${message}`, "chat-message-received"),
-        1000
-      );
+      // Send the message to the Flask server
+      fetch('/send_message', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: `message=${encodeURIComponent(message)}`
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.error) {
+          addMessage(`Error: ${data.error}`, "chat-message-received");
+        } else {
+          addMessage(data.bot_response, "chat-message-received");
+        }
+      })
+      .catch(error => {
+        addMessage(`Error: ${error.message}`, "chat-message-received");
+      });
 
       messageInput.value = ""; // Clear the input field
     }
+  }
+
+  // Simulate typing animation
+  function simulateTypingAnimation(callback) {
+    const typingIndicator = document.createElement("div");
+    typingIndicator.classList.add("typing-indicator");
+    typingIndicator.innerHTML = `
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+    `;
+    messageBox.appendChild(typingIndicator);
+
+    setTimeout(() => {
+      typingIndicator.remove();
+      callback();
+    }, 1500); // Adjust the duration as needed
   }
 
   // Handle Enter key for sending messages

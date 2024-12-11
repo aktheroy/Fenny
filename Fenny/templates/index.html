@@ -5,11 +5,11 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Financial Assistant Bot</title>
-  <link rel="icon" type="image/x-icon" href="../assets/images/pound.png" />
+  <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/pound.png') }}" />
   <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
-  <link rel="stylesheet" href="../assets/css/styles.css" />
-  <link rel="stylesheet" href="../assets/css/responsive.css" />
-  <link rel="stylesheet" href="../assets/css/currency.css" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/responsive.css') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/currency.css') }}" />
 </head>
 
 <body>
@@ -27,7 +27,7 @@
     <a href="https://www.linkedin.com/in/yourusername" target="_blank" class="social-link">
       <i class="bx bxl-linkedin bx-border-circle"></i>
     </a>
-    <a href="path/to/your/resume.pdf" download class="social-link">
+    <a href="{{ url_for('static', filename='path/to/your/resume.pdf') }}" download class="social-link">
       <i class="bx bxs-file-pdf bx-border-circle"></i>
     </a>
   </div>
@@ -90,8 +90,8 @@
   </div>
 
   <!-- Scripts -->
-  <script src="../assets/js/script.js"></script>
-  <script src="../assets/js/currencies.js"></script>
+  <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/currencies.js') }}"></script>
 </body>
 
 </html>
