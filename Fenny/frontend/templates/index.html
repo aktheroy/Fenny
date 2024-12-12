@@ -63,7 +63,20 @@
     <div class="chatbot-input-area">
       <!-- File Upload Display -->
       <div id="file-upload-display" class="file-upload-display hidden">
-        <!-- File upload content -->
+        <div class="file-upload-content">
+          <i class="bx bxs-file-pdf pdf-icon"></i>
+          <div class="file-info">
+            <div class="file-name-row">
+              <span id="file-name">File Name</span>
+            </div>
+            <div class="file-size-row">
+              <span id="file-size">File Size</span>
+            </div>
+          </div>
+          <button class="remove-file-btn" onclick="removeFile()">
+            <i class="bx bxs-x-circle"></i>
+          </button>
+        </div>
       </div>
       <!-- Bottom Controls -->
       <div class="bottom-controls">
@@ -80,7 +93,7 @@
         <!-- Input Container -->
         <div class="input-container">
           <textarea class="message-input" id="message" placeholder="Type your message..."></textarea>
-          <button class="send-btn" onclick="send()">
+          <button class="send-btn" onclick="send()" aria-label="Send Message">
             <i class="bx bxs-chevron-right-circle"></i>
           </button>
         </div>

@@ -140,6 +140,10 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
+    // Display file name and size
+    fileNameDisplay.textContent = file.name;
+    fileSizeDisplay.textContent = `${(file.size / 1024).toFixed(2)} KB`;
+
     // Show the upload display and progress bar
     fileUploadDisplay.classList.remove('hidden');
     fileUploadProgress.classList.remove('hidden');

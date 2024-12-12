@@ -192,17 +192,13 @@ body {
   color: #16b438;
 }
 
-/* Chatbot Messages */
-.chatbot-messages {
-  padding: 8px;
-  height: calc(80% - 132px);
-  overflow-y: auto;
-}
 
 .chat-message-div {
   display: flex;
   flex-direction: column;
   margin-bottom: 10px;
+  animation: fadeIn 0.3s ease-in;
+
 }
 
 .chat-message-sent {
@@ -269,7 +265,7 @@ body {
   flex-direction: column;
   flex-wrap: nowrap;
   justify-content: space-around;
-  width: 6%;
+  width: 7%;
 }
 
 .file-upload-icon,
@@ -291,7 +287,7 @@ body {
 
 .send-btn {
   font-size: 36px;
-  position: absolute; /* Ensure it stays in place */
+  position: sticky; /* Ensure it stays in place */
   right: 10px; /* Adjust the position */
   bottom: 10px; /* Adjust the position */
   display: flex;
@@ -314,13 +310,13 @@ body {
   bottom: 70px; /* Place it above the input area */
   left: 10px;
   padding: 5px 10px; /* Smaller padding */
-  background: rgba(255, 255, 255, 0.8);
+  background: white;
   border-radius: 12px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   font-size: 12px; /* Smaller font size */
-  white-space: nowrap; /* Prevent wrapping */
+  white-space: normal; /* Prevent wrapping */
   z-index: 10; /* Ensure it appears above other elements */
-  height: 80px;
+  height: 50px;
   width: 190px; /* Fixed width for the display */
 }
 
@@ -329,8 +325,8 @@ body {
 }
 
 .pdf-icon {
-  font-size: 20px; /* Smaller icon size */
-  color: #e74c3c;
+  font-size: 24px; /* Smaller icon size */
+  color: #ff4b4b;
   padding-right: 5px; /* Smaller spacing */
   z-index: 3;
   align-self: center;
@@ -339,7 +335,7 @@ body {
 .file-upload-content {
   display: flex;
   align-items: flex-start;
-  gap: 5px; /* Smaller gap between elements */
+  gap: 4px; /* Smaller gap between elements */
 }
 
 .file-info {
@@ -362,8 +358,8 @@ body {
 
 .remove-file-btn {
   position: absolute;
-  top: 5px;
-  right: 5px;
+  top: 0px;
+  right: 2px;
   background: none;
   border: none;
   font-size: 12px;
@@ -438,7 +434,7 @@ body {
   background-color: var(--primary-color);
   padding: 8px 12px;
   border-radius: 5px;
-  margin-right: 10px;
+  margin-right: 5px;
   transition: background-color 0.3s ease;
 }
 
@@ -491,6 +487,8 @@ body {
 
 /* Input Area Alignment */
 .input-container {
+  margin-top:2px;
+  margin-bottom: 2px;
   display: flex;
   flex: 1; /* Take up remaining space */
   align-items: center;
@@ -499,7 +497,7 @@ body {
 
 textarea.message-input {
   flex: 1;
-  margin-right: 74px;
+  margin-right: 20px;
   font-size: 16px;
   height: 40px;
   max-height: 120px; /* Set a maximum height */
@@ -510,8 +508,4 @@ textarea.message-input {
   border-radius: 20px;
   margin-left: 2px;
   overflow-y: auto; /* Enable vertical scrolling */
-}
-
-.file-upload-label {
-  margin-right: 5px;
 }
