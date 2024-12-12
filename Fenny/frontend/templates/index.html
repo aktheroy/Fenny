@@ -5,20 +5,20 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Financial Assistant Bot</title>
-  <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/pound.png') }}" />
+  <link rel="icon" type="image/x-icon" href="../static/images/pound.png" />
   <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}" />
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/responsive.css') }}" />
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/currency.css') }}" />
+  <link rel="stylesheet" href="../static/css/main.css" />
 </head>
 
 <body>
   <!-- Currency Container -->
   <div id="currencies-container" class="currencies-container"></div>
+
   <!-- Chatbot Toggle Button -->
   <div id="chatbot-toggle" class="circle-toggle">
     <i class="bx bx-dollar-circle bx-lg"></i>
   </div>
+
   <!-- Social Icons -->
   <div class="social-icons hidden" id="social-icons">
     <a href="https://github.com/yourusername" target="_blank" class="social-link">
@@ -31,6 +31,7 @@
       <i class="bx bxs-file-pdf bx-border-circle"></i>
     </a>
   </div>
+
   <!-- Chatbot Container -->
   <div id="chatbot" class="chatbot-container collapsed">
     <!-- Header Section -->
@@ -54,44 +55,42 @@
         </button>
       </div>
     </div>
+
     <!-- Chat Messages -->
     <div class="chatbot-messages" id="message-box"></div>
-    <!-- Input Area -->
+
+    <!-- Chatbot Input Area -->
     <div class="chatbot-input-area">
-      <div class="input-container">
-        <!-- File Upload Display -->
-        <div id="file-upload-display" class="file-upload-display hidden">
-          <div class="file-upload-content">
-            <i class="bx bxs-file-pdf pdf-icon"></i>
-            <button class="remove-file-btn" onclick="removeFile()">
-              <i class="bx bxs-x-circle"></i>
-            </button>
-            <div id="file-upload-progress" class="file-upload-progress hidden">
-              <span id="progress-percentage" class="progress-percentage">0%</span>
-            </div>
+      <!-- File Upload Display -->
+      <div id="file-upload-display" class="file-upload-display hidden">
+        <!-- File upload content -->
+      </div>
+      <!-- Bottom Controls -->
+      <div class="bottom-controls">
+        <!-- Left Controls -->
+        <div class="left-controls">
+          <label for="file-upload" class="file-upload-icon">
+            <i class='bx bx-paperclip bx-rotate-90'></i>
+          </label>
+          <input type="file" id="file-upload" class="file-input" accept="application/pdf">
+          <div class="settings-icon">
+            <i class='bx bx-cog'></i>
           </div>
         </div>
-
-        <!-- File Upload Input -->
-        <label for="file-upload" class="file-upload-icon">
-          <i class="bx bxs-plus-circle"></i>
-        </label>
-        <input type="file" id="file-upload" class="file-input" accept="application/pdf" />
-
-        <!-- Text Area -->
-        <textarea class="message-input" id="message" placeholder="Type your message..."></textarea>
-
-        <!-- Send Button -->
-        <button class="send-btn" onclick="send()">
-          <i class="bx bxs-chevrons-right"></i>
-        </button>
+        <!-- Input Container -->
+        <div class="input-container">
+          <textarea class="message-input" id="message" placeholder="Type your message..."></textarea>
+          <button class="send-btn" onclick="send()">
+            <i class="bx bxs-chevron-right-circle"></i>
+          </button>
+        </div>
       </div>
     </div>
-  </div>
-
-  <!-- Scripts -->
-  <script src="{{ url_for('static', filename='js/script.js') }}"></script>
-  <script src="{{ url_for('static', filename='js/currencies.js') }}"></script>
+    <!-- Scripts -->
+    <script type="module">
+      import "../static/js/currencies.js";
+      import "../static/js/script.js";
+    </script>
 </body>
 
 </html>
