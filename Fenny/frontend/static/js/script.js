@@ -15,8 +15,6 @@ document.addEventListener('DOMContentLoaded', () => {
     fileUploadDisplay: document.getElementById('file-upload-display'),
     fileNameDisplay: document.getElementById('file-name'),
     fileSizeDisplay: document.getElementById('file-size'),
-    fileUploadProgress: document.getElementById('file-upload-progress'),
-    progressPercentage: document.getElementById('progress-percentage'),
     sendButton: document.querySelector('.send-btn'),
   };
 
@@ -59,23 +57,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     return true;
   };
-
-  const updateProgressBar = (progress) => {
-    elements.fileUploadProgress.style.width = `${progress}%`;
-    elements.progressPercentage.textContent = `${progress}%`;
-  };
-
-  const simulateFileUpload = () => {
-    let progress = 0;
-    const interval = setInterval(() => {
-      progress += 10;
-      updateProgressBar(progress);
-      if (progress >= 100) {
-        clearInterval(interval);
-        elements.progressPercentage.textContent = 'Completed!';
-        setTimeout(() => addClass(elements.fileUploadProgress, 'hidden'), 1000);
-      }
-    }, 300);
+  // Function to remove the file from display
+  const removeFile = () => {
+    elements.fileInput.value = ''; // Clear the file input
+    elements.fileNameDisplay.textContent = 'File Name'; // Reset file name display
+    elements.fileSizeDisplay.textContent = 'File Size'; // Reset file size display
+    addClass(elements.fileUploadDisplay, 'hidden'); // Hide the file upload display
   };
 
   // Event Handlers
@@ -83,6 +70,16 @@ document.addEventListener('DOMContentLoaded', () => {
     toggleClass(elements.chatbot, 'collapsed');
     toggleClass(elements.socialIcons, 'visible');
   };
+  // Event Handlers
+  elements.fileInput.addEventListener('change', (event) => {
+    const file = event.target.files[0];
+    if (file && handleFileValidation(file)) {
+      elements.fileNameDisplay.textContent = file.name;
+      elements.fileSizeDisplay.textContent = `${(file.size / 1024).toFixed(2)} KB`;
+      addClass(elements.fileUploadDisplay, 'expanded'); // Show the file upload display
+    }
+  });
+
 
   const handleSendMessage = () => {
     const message = elements.messageInput.value.trim();
@@ -104,6 +101,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (message) {
       displayMessage(message, 'chat-message-sent');
       elements.messageInput.value = '';
+      resetTextareaHeight(); // Reset the textarea height
+
 
       // Simulate server communication
       fetch('/send_message', {
@@ -138,6 +137,14 @@ document.addEventListener('DOMContentLoaded', () => {
       simulateFileUpload();
     }
   });
+  // Function to reset the textarea height to its default size
+  const resetTextareaHeight = () => {
+  elements.messageInput.style.height = '60px'; // Set the default height
+  };
+
+  // Add event listener for the remove file button
+  const removeFileBtn = document.querySelector('.remove-file-btn');
+  removeFileBtn.addEventListener('click', removeFile);
 
   // Utility Animations
   const currencyIcons = document.querySelectorAll('.currency-slide i');
@@ -152,7 +159,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Auto-resize message input
   elements.messageInput.addEventListener('input', () => {
-    elements.messageInput.style.height = 'auto';
-    elements.messageInput.style.height = `${Math.min(elements.messageInput.scrollHeight, 120)}px`;
+    elements.messageInput.style.height = 'auto';  // Set the height to the scrollHeight, with a minimum of 40px and a maximum of 120px
+    elements.messageInput.style.height = `${Math.min(Math.max(elements.messageInput.scrollHeight, 60), 80)}px`;
   });
 });
+
+// Function to reset the textarea height to its default size
+const resetTextareaHeight = () => {
+  elements.messageInput.style.height = '40px'; // Set the default height
+};
