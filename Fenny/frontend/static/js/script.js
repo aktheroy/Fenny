@@ -1,4 +1,3 @@
-// Optimized Chatbot Script
 import { getCurrentTime } from './utils.js';
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -15,6 +14,8 @@ document.addEventListener('DOMContentLoaded', () => {
     fileUploadDisplay: document.getElementById('file-upload-display'),
     fileNameDisplay: document.getElementById('file-name'),
     fileSizeDisplay: document.getElementById('file-size'),
+    fileUploadProgress: document.getElementById('file-upload-progress'),
+    progressPercentage: document.getElementById('progress-percentage'),
     sendButton: document.querySelector('.send-btn'),
   };
 
@@ -57,6 +58,25 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     return true;
   };
+
+  const updateProgressBar = (progress) => {
+    elements.fileUploadProgress.style.width = `${progress}%`;
+    elements.progressPercentage.textContent = `${progress}%`;
+  };
+
+  const simulateFileUpload = () => {
+    let progress = 0;
+    const interval = setInterval(() => {
+      progress += 10;
+      updateProgressBar(progress);
+      if (progress >= 100) {
+        clearInterval(interval);
+        elements.progressPercentage.textContent = 'Completed!';
+        setTimeout(() => addClass(elements.fileUploadProgress, 'hidden'), 1000);
+      }
+    }, 300);
+  };
+
   // Function to remove the file from display
   const removeFile = () => {
     elements.fileInput.value = ''; // Clear the file input
