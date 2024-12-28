@@ -1,7 +1,10 @@
 // currencies.js
-import { shuffle } from './utils.js';
+import { shuffle, getCurrentTime } from './utils.js';
 
+// DOM Element References
 const container = document.getElementById('currencies-container');
+
+// Currency Icons
 const icons = [
   '<i class="bx bx-dollar" data-tooltip="USD"></i>',
   '<i class="bx bx-euro" data-tooltip="EUR"></i>',
@@ -15,6 +18,7 @@ const icons = [
   '<i class="bx bx-shekel" data-tooltip="ILS"></i>',
 ];
 
+// Generate Currency Rows
 for (let i = 0; i < 10; i++) {
   const shuffledIcons = shuffle([...icons]);
   const currencyRow = document.createElement('div');
@@ -26,3 +30,14 @@ for (let i = 0; i < 10; i++) {
   `;
   container.appendChild(currencyRow);
 }
+
+// Hover Effects for Currency Icons
+const currencyIcons = document.querySelectorAll('.currency-slide i');
+currencyIcons.forEach((icon) => {
+  icon.addEventListener('mouseover', () => {
+    icon.style.setProperty('--random-hover-color', ['red', 'green', 'yellowgreen', 'darkred'][Math.floor(Math.random() * 4)]);
+  });
+  icon.addEventListener('mouseout', () => {
+    icon.style.setProperty('--random-hover-color', '');
+  });
+});

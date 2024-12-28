@@ -1,10 +1,14 @@
+/* ==================== */
+/* Global Styles        */
+/* ==================== */
 :root {
   --primary-color: #007bff;
   --background-color: #1f1f87;
   --text-color: white;
-  --hover-color: #0056b3;
-  --glowing-gradient: linear-gradient(180deg, #ff6ec4,yellowgreen);
-  
+  --hover-color: #0091ff;
+  --glowing-gradient: linear-gradient(180deg, #ff6ec4, yellowgreen);
+  --border-radius: 20px;
+  --box-shadow: 0 8px 32px rgba(31, 31, 136, 0.5);
 }
 
 * {
@@ -23,9 +27,12 @@ body {
   overflow-x: hidden;
 }
 
+/* ==================== */
+/* Currency Styles      */
+/* ==================== */
 .currencies-container {
-  width: 100%; /* Ensure it spans the full width */
-  overflow: hidden; /* Prevent overflow */
+  width: 100%;
+  overflow: hidden;
   position: absolute;
   top: 0;
   padding-left: 24px;
@@ -33,7 +40,9 @@ body {
   margin: 4px;
 }
 
-/* Chatbot Toggle Button */
+/* ==================== */
+/* Chatbot Toggle       */
+/* ==================== */
 #chatbot-toggle {
   position: fixed;
   bottom: 20px;
@@ -48,12 +57,14 @@ body {
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  box-shadow: 0 4px 8px rgba(31, 31, 135, 0.5);
+  box-shadow: var(--box-shadow);
   z-index: 10;
   animation: bounce 2s infinite;
 }
 
-/* Social Icons Container */
+/* ==================== */
+/* Social Icons         */
+/* ==================== */
 .social-icons {
   position: fixed;
   bottom: 20px;
@@ -64,6 +75,7 @@ body {
   transform: translateX(-30px);
   transition: opacity 0.3s ease, transform 0.3s ease;
   pointer-events: none;
+  
 }
 
 .social-icons.visible {
@@ -94,7 +106,9 @@ body {
   color: #e74c3c;
 }
 
-/* Chatbot Container */
+/* ==================== */
+/* Chatbot Container    */
+/* ==================== */
 .chatbot-container {
   position: fixed;
   bottom: 100px;
@@ -104,10 +118,10 @@ body {
   background: rgba(255, 255, 255, 0.15);
   backdrop-filter: blur(15px);
   border: 2px solid rgba(255, 255, 255, 0.18);
-  border-radius: 20px;
+  border-radius: var(--border-radius);
   overflow: hidden;
   transition: all 0.5s;
-  box-shadow: 0 8px 32px rgba(31, 31, 136, 0.5);
+  box-shadow: var(--box-shadow);
   opacity: 1;
   z-index: 9;
   max-width: 90%;
@@ -124,7 +138,9 @@ body {
   opacity: 0;
 }
 
-/* Chatbot Header */
+/* ==================== */
+/* Chatbot Header       */
+/* ==================== */
 .chatbot-header {
   display: flex;
   justify-content: space-between;
@@ -170,7 +186,8 @@ body {
   cursor: pointer;
 }
 
-.minimize-btn i {
+.minimize-btn i,
+.maximize-btn i {
   font-size: 30px;
   color: #8c8980;
   transition: color 0.3s ease;
@@ -180,34 +197,58 @@ body {
   color: #ffd900;
 }
 
-.maximize-btn i {
-  font-size: 30px;
-  color: #8c8980;
-  transition: color 0.3s ease;
-}
-
 .maximize-btn:hover i {
   color: #16b438;
 }
 
+/* ==================== */
+/* Chat Messages        */
+/* ==================== */
+.chatbot-messages {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: 10px;
+  gap: 10px;
+  overflow-y: auto;
+  height: calc(100% - 120px);
+}
 
+.chat-message-div {
+  display: flex;
+  flex-direction: column;
+  max-width: 80%;
+  word-wrap: break-word;
+  padding: 10px;
+  border-radius: var(--border-radius);
+  font-size: 14px;
+}
+.chat-message-sent .pdf-icon {
+  font-size: 24px; /* Adjust icon size */
+  color: var(--text-color);
+  align-self: center; /* Ensure icon is centered */
+}
 
 .chat-message-sent {
+  align-self: flex-end;
   background-color: var(--primary-color);
   color: var(--text-color);
-  align-self: flex-end;
   border-radius: 20px;
   padding: 8px;
   animation: fadeIn 0.3s ease-in;
+  display: flex;
+  align-items: center; /* Center items vertically */
+  gap: 8px; /* Add space between icon and text */
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  display: inline-block;
+  max-width: 80%;
 }
 
 .chat-message-received {
-  background-color: #e6f2ff;
-  color: black;
   align-self: flex-start;
-  border-radius: 20px;
-  padding: 8px;
-  animation: fadeIn 0.3s ease-in;
+  background-color: rgba(255, 255, 255);
+  color: black;
 }
 
 .timestamp {
@@ -217,52 +258,34 @@ body {
   margin-top: 4px;
 }
 
-/* Chatbot Input Area */
+/* ==================== */
+/* Chatbot Input Area   */
+/* ==================== */
 .chatbot-input-area {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  padding: 10px; /* Add padding to the input area */
-  border-radius: 0 0 20px 20px;
-  background: rgba(255, 255, 255, 0); /* Add a background to make it visible */
-  position: absolute; /* Position it absolutely within the chatbot container */
-  bottom: 0; /* Stick it to the bottom */
+  padding: 10px;
+  border-radius: 0 0 var(--border-radius) var(--border-radius);
+  background: rgba(255, 255, 255, 0);
+  position: absolute;
+  bottom: 0;
   left: 0;
   right: 0;
-  z-index: 10; /* Ensure it stays above other elements */
+  z-index: 10;
 }
 
-.message-input {
-  flex: 1; /* Take up remaining space */
-  width: 100%;
-  min-height: 60px; /* Minimum height */
-  max-height: 120px; /* Maximum height */
-  border: 2px var(--hover-color);
-  border-radius: 25px;
-  padding: 10px;
-  font-size: 16px;
-  resize: none; /* Prevent manual resizing */
-  overflow-y: auto; /* Enable vertical scrolling */
-  outline: none;
-  margin-right: 60px;
-}
-
-/* Bottom Controls */
 .bottom-controls {
   display: flex;
-  align-items: flex-start; /* Align items to the bottom */
+  align-items: center; /* Align items vertically in the center */
   gap: 10px; /* Space between left controls and input container */
-  flex-direction: row;
-  flex-wrap: nowrap;
-  justify-content: space-between;
-  width: 100%; /* Ensure it spans the full width */
+  width: 100%;
 }
-
 
 .left-controls {
   display: flex;
   align-items: center;
-  gap: 8px; /* Space between paperclip and settings icon */
+  gap: 8px;
   flex-direction: column;
   flex-wrap: nowrap;
   justify-content: space-around;
@@ -274,78 +297,124 @@ body {
   font-size: 24px;
   color: var(--text-color);
   cursor: pointer;
+  background: transparent; /* Ensure no background */
+  padding: 0; /* Remove padding */
+  border: none; /* Remove border if any */
 }
 
 .file-input {
   display: none;
 }
+.input-container {
+  position: relative;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
 
-.settings-icon i {
-  font-size: 30px;
-  color: --primary-color;
-  cursor: pointer;
+.message-input {
+  flex: 1;
+  width: 100%;
+  min-height: 60px;
+  max-height: 120px;
+  border: 2px solid var(--hover-color);
+  border-radius: 20px;
+  padding: 10px;
+  font-size: 16px;
+  resize: none;
+  overflow-y: auto;
+  outline: none;
+  padding-right: 60px; /* Add padding to avoid text overlapping the word count */
+}
+
+.word-count {
+  position: absolute;
+  bottom: 10px;
+  right: 64px;
+  font-size: 12px;
+  color: #888;
+  background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent background */
+  padding: 2px 6px;
+  border-radius: 10px;
+  pointer-events: none; /* Ensure the overlay doesn't interfere with textarea input */
 }
 
 .send-btn {
-  font-size: 36px;
-  position: sticky; /* Ensure it stays in place */
-  right: 10px; /* Adjust the position */
-  bottom: 10px; /* Adjust the position */
+  /* Make width and height equal */
+  width: 50px;  /* You can adjust this value */
+  height: 50px;
+  
+  /* Center the content */
   display: flex;
   align-items: center;
   justify-content: center;
+  
+  /* Make it circular */
+  border-radius: 50%;
+  
+  /* Keep your existing styles */
+  font-size: 50px;
   background-color: var(--primary-color);
   color: var(--text-color);
-  padding: 10px;
   border: none;
-  border-radius: 50%;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
 
-/* File Upload Display Area */
+.send-btn:hover {
+  background-color: var(--hover-color);
+}
+
+/* ==================== */
+/* File Upload Display  */
+/* ==================== */
+/* styles.css */
 .file-upload-display {
   display: flex;
   align-items: flex-start;
   padding: 10px;
-  background: rgba(255, 255, 255);
-  border-radius: 20px 20px 20px 20px;
-  box-shadow: var(--background-color);
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   font-size: 14px;
-  white-space: normal;
+  white-space: nowrap; /* Prevent text from wrapping */
+  overflow: hidden; /* Hide overflow */
+  text-overflow: ellipsis; /* Show ellipsis for overflow text */
   z-index: 10;
-  width: 40%;
+  width: 40%; /* Adjust width as needed */
+  max-width: 200px; /* Set a maximum width */
   transition: all 0.3s ease;
-  position: absolute; /* Position it absolutely within the chatbot container */
-  bottom: 100px; /* Position it just above the input container */
+  position: absolute;
+  bottom: 100px;
   left: 5px;
   right: 0;
-  transform: translateY(100%); /* Start hidden below the input container */
-  opacity: 0; /* Start hidden */
+  transform: translateY(100%);
+  opacity: 0;
 }
 
 .file-upload-display.expanded {
-  transform: translateY(20%); /* Move up to the correct position */
-  opacity: 1; /* Make it visible */
+  transform: translateY(20%);
+  opacity: 1;
 }
 
 .file-upload-display.hidden {
   display: none;
 }
 
+.file-upload-content {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  overflow: hidden; /* Ensure content doesn't overflow */
+}
 .pdf-icon {
-  font-size: 24px;
+  font-size: 32px; /* Increase the size of the PDF icon */
   color: #ff4b4b;
   padding-right: 10px;
   z-index: 3;
   align-self: center;
-}
-
-.file-upload-content {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  width: 100%;
 }
 
 .file-info {
@@ -353,12 +422,16 @@ body {
   flex-direction: column;
   gap: 4px;
   flex: 1;
+  overflow: hidden; /* Ensure text doesn't overflow */
 }
 
 .file-name-row {
   display: flex;
   align-items: center;
   font-weight: bold;
+  overflow: hidden; /* Ensure text doesn't overflow */
+  text-overflow: ellipsis; /* Show ellipsis for overflow text */
+  white-space: nowrap; /* Prevent text from wrapping */
 }
 
 .file-size-row {
@@ -366,15 +439,19 @@ body {
   align-items: center;
   font-size: 12px;
   color: #888;
+  overflow: hidden; /* Ensure text doesn't overflow */
+  text-overflow: ellipsis; /* Show ellipsis for overflow text */
+  white-space: nowrap; /* Prevent text from wrapping */
 }
 
 .remove-file-btn {
   background: none;
   border: none;
   font-size: 20px;
-  color: #731004;
+  color: #c71e0b;
   cursor: pointer;
   transition: color 0.3s ease;
+  flex-shrink: 0; /* Prevent the button from shrinking */
 }
 
 .remove-file-btn:hover {
@@ -382,7 +459,48 @@ body {
 }
 
 
-/* Animations */
+.file-upload-spinner {
+  position: absolute;
+  top: 0;
+  left: 5px;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  border-radius: 20px;
+  z-index: 2;
+}
+
+.file-upload-spinner.hidden {
+  display: none;
+}
+
+.spinner {
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  border-top: 4px solid var(--primary-color);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+}
+
+
+
+
+/* ==================== */
+/* Animations           */
+/* ==================== */
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
 @keyframes bounce {
   0%, 20%, 50%, 80%, 100% {
     transform: translateY(0);
@@ -413,88 +531,4 @@ body {
     opacity: 1;
     transform: translateY(0);
   }
-}
-/* Styling for the new input container */
-.file-upload-label {
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-  color: var(--text-color);
-  background-color: var(--primary-color);
-  padding: 8px 12px;
-  border-radius: 5px;
-  margin-right: 5px;
-  transition: background-color 0.3s ease;
-}
-
-.file-upload-label:hover {
-  background-color: var(--hover-color);
-}
-
-.file-input {
-  display: none;
-}
-
-
-.send-btn:hover {
-  background-color: var(--hover-color);
-}
-
-/* Aligning chat messages and input properly */
-.chatbot-messages {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  padding: 10px;
-  gap: 10px;
-  overflow-y: auto;
-  height: calc(100% - 120px); /* Adjusted to fit input area */
-  max-height: 80%; /* Ensure it doesn't exceed the viewport */
-}
-
-.chat-message-div {
-  display: flex;
-  flex-direction: column;
-  max-width: 80%; /* Prevent messages from spanning too wide */
-  word-wrap: break-word;
-  padding: 10px;
-  border-radius: 20px;
-  font-size: 14px;
-}
-
-.chat-message-sent {
-  align-self: flex-end;
-  background-color: var(--primary-color);
-  color: var(--text-color);
-}
-
-.chat-message-received {
-  align-self: flex-start;
-  background-color: rgba(255, 255, 255);
-  color: black;
-}
-
-/* Input Area Alignment */
-.input-container {
-  display: flex;
-  flex: 1; /* Take up remaining space */
-  align-items: center;
-  gap: 10px; /* Space between textarea and send button */
-  width: 100%; /* Ensure it spans the full width */
-}
-
-/* Message Input */
-textarea.message-input {
-  flex: 1;
-  margin-right: 20px;
-  font-size: 16px;
-  height: 40px;
-  max-height: 120px; /* Set a maximum height */
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  padding: 5px 10px;
-  width: 90%;
-  background-color: rgb(255, 255, 255);
-  border-radius: 20px;
-  margin-left: 2px;
-  overflow-y: auto; /* Enable vertical scrolling */
 }

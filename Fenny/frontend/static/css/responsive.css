@@ -1,49 +1,100 @@
-@media (max-width: 767px) {
+/* ==================== */
+/* Global Responsive    */
+/* ==================== */
+@media (max-width: 1024px) {
+  /* Adjust chatbot width and height for tablets */
   .chatbot-container {
-    width: 90%; /* Adjust width for mobile */
-    height: 60%;
-    bottom: 88px;
-    right: 5%;
-    overflow: hidden;
-  }
-
-  .header-title {
-    font-size: 16px;
-  }
-
-  .header-subtitle {
-    font-size: 12px;
-  }
-
-  .message-input {
-    font-size: 12px;
-    padding: 8px;
-  }
-
-  .file-upload-icon {
-    font-size: 25px;
+    width: 60% !important;
+    height: 60% !important;
   }
 }
 
-@media (min-width: 768px) and (max-width: 1024px) {
+@media (max-width: 768px) {
+  /* Adjust chatbot width and height for smaller tablets */
   .chatbot-container {
-    width: 70%; /* Adjust width for tablet */
-    height: 60%;
-    bottom: 88px;
-    right: 5%;
-    overflow: hidden;
+    width: 80% !important;
+    height: 70% !important;
   }
 
-  .header-title {
-    font-size: 18px;
+  /* Adjust social icons position */
+  .social-icons {
+    right: 80px;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Adjust chatbot width and height for mobile devices */
+  .chatbot-container {
+    width: 90% !important;
+    height: 60% !important;
   }
 
-  .header-subtitle {
+  /* Hide social icons on small screens */
+  .social-icons {
+    display: none;
+  }
+
+  /* Adjust currency icon size for mobile */
+  .currency-slide i {
+    font-size: 30px;
+    margin: 0 10px;
+  }
+
+  /* Adjust chatbot toggle button size */
+  #chatbot-toggle {
+    width: 50px;
+    height: 50px;
+  }
+
+  /* Adjust chatbot header font size */
+  .chatbot-header .header-title {
+    font-size: 16px;
+  }
+
+  .chatbot-header .header-subtitle {
+    font-size: 12px;
+  }
+
+  /* Adjust message input height */
+  .message-input {
+    min-height: 50px;
+    max-height: 100px;
+  }
+
+  /* Adjust send button size */
+  .send-btn {
+    font-size: 28px;
+    padding: 8px;
+  }
+}
+
+@media (max-width: 320px) {
+  /* Further adjustments for very small screens */
+  .currency-slide i {
+    font-size: 24px;
+    margin: 0 8px;
+  }
+
+  #chatbot-toggle {
+    width: 40px;
+    height: 40px;
+  }
+
+  .chatbot-header .header-title {
     font-size: 14px;
+  }
+
+  .chatbot-header .header-subtitle {
+    font-size: 10px;
   }
 
   .message-input {
-    font-size: 14px;
-    padding: 10px;
+    min-height: 40px;
+    max-height: 80px;
+  }
+
+  .send-btn {
+    font-size: 24px;
+    padding: 6px;
   }
 }
