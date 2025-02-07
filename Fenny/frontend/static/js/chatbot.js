@@ -145,15 +145,28 @@ const autoResizeTextarea = () => {
   elements.messageInput.style.height = `${Math.min(Math.max(elements.messageInput.scrollHeight, 60), 120)}px`;
 };
 
-// Event Listeners
 const setupEventListeners = () => {
   elements.chatbotToggle.addEventListener('click', () => {
     toggleClass(elements.chatbot, 'collapsed');
-    toggleClass(elements.socialIcons, 'visible');
+
+    // Check if the chatbot is open
+    if (!elements.chatbot.classList.contains('collapsed')) {
+      addClass(elements.socialIcons, 'visible'); // Show social icons
+    } else {
+      removeClass(elements.socialIcons, 'visible'); // Hide social icons
+    }
   });
 
-  elements.minimizeBtn.addEventListener('click', () => toggleClass(elements.chatbot, 'collapsed'));
-  elements.maximizeBtn.addEventListener('click', () => toggleClass(elements.chatbot, 'maximized'));
+  elements.minimizeBtn.addEventListener('click', () => {
+    toggleClass(elements.chatbot, 'collapsed');
+    removeClass(elements.socialIcons, 'visible'); // Hide social icons when minimized
+  });
+
+  elements.maximizeBtn.addEventListener('click', () => {
+    toggleClass(elements.chatbot, 'maximized');
+    addClass(elements.socialIcons, 'visible'); // Show social icons when maximized
+  });
+
   elements.sendButton.addEventListener('click', handleSendMessage);
   elements.messageInput.addEventListener('keypress', (e) => {
     if (e.key === 'Enter' && !e.shiftKey) {
