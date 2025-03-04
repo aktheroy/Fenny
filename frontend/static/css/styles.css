@@ -212,6 +212,7 @@ body {
   gap: 10px;
   overflow-y: auto;
   height: calc(100% - 120px);
+  scroll-behavior: smooth;
 }
 
 .chat-message-div {
@@ -222,11 +223,7 @@ body {
   padding: 10px;
   border-radius: var(--border-radius);
   font-size: 14px;
-}
-.chat-message-sent .pdf-icon {
-  font-size: 24px; /* Adjust icon size */
-  color: var(--text-color);
-  align-self: center; /* Ensure icon is centered */
+  scroll-margin: 1rem;
 }
 
 .chat-message-sent {
@@ -234,28 +231,94 @@ body {
   background-color: var(--primary-color);
   color: var(--text-color);
   border-radius: 20px;
-  padding: 8px;
   animation: fadeIn 0.3s ease-in;
-  display: flex;
-  align-items: center; /* Center items vertically */
-  gap: 8px; /* Add space between icon and text */
+  display: flex; /* Changed from inline-block to flex */
+  flex-direction: column; /* Stack content vertically */
+  align-items: flex-start;
+  gap: 4px;
   word-wrap: break-word;
   overflow-wrap: break-word;
-  display: inline-block;
   max-width: 80%;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  margin-inline-start: auto;
+  position: relative; /* Add this for timestamp positioning */
+}
+
+.chat-message-sent:hover,
+.chat-message-received:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .chat-message-received {
   align-self: flex-start;
   background-color: rgba(255, 255, 255);
   color: black;
+  display: flex; /* Add flex display */
+  flex-direction: column; /* Stack content vertically */
+  align-items: flex-start; /* Align content to the left */
+  gap: 4px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  margin-inline-end: auto;
+  position: relative; /* Add this for timestamp positioning */
 }
 
 .timestamp {
   font-size: 10px;
-  color: #000000;
-  align-self: flex-end;
+  font-style: italic;
+  padding: 2px 6px;
+  border-radius: 8px;
+  background-color: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(4px);
+  margin-top: 2px;
+  align-self: flex-end; /* Always align to the right */
+  order: 2; /* Ensure timestamp appears after message content */
+}
+
+/* Add these specific timestamp styles for sent/received messages */
+.chat-message-sent .timestamp {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.chat-message-received .timestamp {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+/* Add message content wrapper */
+.message-content {
+  width: 100%;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+/* Update the PDF icon styling to match timestamp */
+.chat-message-sent .pdf-icon,
+.chat-message-received .pdf-icon {
+  font-size: 32px; /* Increased from 24px */
+  padding: 4px 8px;
+  border-radius: 8px;
+  background-color: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(4px);
   margin-top: 4px;
+  align-self: flex-end;
+  order: 2;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+/* Specific styles for sent/received messages */
+.chat-message-sent .pdf-icon {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.chat-message-received .pdf-icon {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+/* Add hover effect */
+.chat-message-sent .pdf-icon:hover,
+.chat-message-received .pdf-icon:hover {
+  transform: scale(1.1);
 }
 
 /* ==================== */
@@ -326,6 +389,13 @@ body {
   overflow-y: auto;
   outline: none;
   padding-right: 60px; /* Add padding to avoid text overlapping the word count */
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  background: rgba(255, 255, 255);
+}
+
+.message-input:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
 }
 
 .word-count {
@@ -384,18 +454,19 @@ body {
   z-index: 10;
   width: 40%; /* Adjust width as needed */
   max-width: 200px; /* Set a maximum width */
-  transition: all 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   position: absolute;
   bottom: 100px;
   left: 5px;
   right: 0;
-  transform: translateY(100%);
+  transform: translateY(120%);
   opacity: 0;
 }
 
 .file-upload-display.expanded {
   transform: translateY(20%);
   opacity: 1;
+  animation: slideIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .file-upload-display.hidden {
@@ -418,8 +489,8 @@ body {
 }
 
 .file-info {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: 1fr;
   gap: 4px;
   flex: 1;
   overflow: hidden; /* Ensure text doesn't overflow */
@@ -428,20 +499,30 @@ body {
 .file-name-row {
   display: flex;
   align-items: center;
-  font-weight: bold;
+  font-weight: 600;
+  color: #2b2b2b;
   overflow: hidden; /* Ensure text doesn't overflow */
   text-overflow: ellipsis; /* Show ellipsis for overflow text */
   white-space: nowrap; /* Prevent text from wrapping */
+  font-size: 14px;
 }
 
 .file-size-row {
   display: flex;
+  justify-content: space-between;
   align-items: center;
+  color: #666;
   font-size: 12px;
-  color: #888;
-  overflow: hidden; /* Ensure text doesn't overflow */
-  text-overflow: ellipsis; /* Show ellipsis for overflow text */
-  white-space: nowrap; /* Prevent text from wrapping */
+  transition: all 0.3s ease;
+}
+
+.file-type {
+  text-transform: uppercase;
+  background: rgba(0, 123, 255, 0.1);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-weight: 600;
+  color: var(--primary-color);
 }
 
 .remove-file-btn {
@@ -458,6 +539,12 @@ body {
   color: #fd1b02;
 }
 
+.file-size {
+  font-variant-numeric: tabular-nums; /* Makes numbers align better */
+  min-width: 70px; /* Ensures consistent spacing */
+  text-align: right; /* Aligns numbers to the right */
+  color: #666;
+}
 
 .file-upload-spinner {
   position: absolute;
@@ -471,6 +558,8 @@ body {
   justify-content: flex-start;
   border-radius: 20px;
   z-index: 2;
+  backdrop-filter: blur(4px);
+  animation: fadeScale 0.3s ease;
 }
 
 .file-upload-spinner.hidden {
@@ -483,11 +572,40 @@ body {
   border-radius: 50%;
   width: 40px;
   height: 40px;
-  animation: spin 1s linear infinite;
+  animation: spin 1s cubic-bezier(0.4, 0, 0.2, 1) infinite;
 }
 
+/* Add typing indicator animation */
+@keyframes typingDots {
+  0%, 20% { transform: translateY(0px); }
+  50% { transform: translateY(-5px); }
+  80%, 100% { transform: translateY(0px); }
+}
 
+.typing-indicator {
+  display: flex;
+  gap: 4px;
+  padding: 8px 12px;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 15px;
+  width: fit-content;
+}
 
+.typing-indicator span {
+  width: 6px;
+  height: 6px;
+  background: var(--primary-color);
+  border-radius: 50%;
+  animation: typingDots 1s infinite;
+}
+
+.typing-indicator span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.typing-indicator span:nth-child(3) {
+  animation-delay: 0.4s;
+}
 
 /* ==================== */
 /* Animations           */
@@ -531,4 +649,48 @@ body {
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+/* Add new animations */
+@keyframes slideIn {
+  from {
+    transform: translateY(120%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(20%);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeScale {
+  from {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Add container queries for better responsive design */
+@container (min-width: 400px) {
+  .chatbot-messages {
+    gap: 15px;
+  }
+}
+
+/* Use logical properties for better internationalization */
+.chat-message-sent {
+  margin-inline-start: auto;
+}
+
+.chat-message-received {
+  margin-inline-end: auto;
+}
+
+/* Add scroll margin for better scroll behavior */
+.chat-message-div {
+  scroll-margin: 1rem;
 }

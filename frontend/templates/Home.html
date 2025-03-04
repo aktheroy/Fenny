@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Financial Assistant Bot</title>
+  <meta name="description" content="A personal financial assistant bot to help with financial queries." />
+  <link rel="icon" type="image/x-icon" href="../static/images/pound.png" />
+  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="../static/css/currency.css" />
+  <link rel="stylesheet" href="../static/css/styles.css" />
+  <link rel="stylesheet" href="../static/css/responsive.css" />
+</head>
+
+<body>
+  <!-- Currency Section -->
+  <section id="currencies-container" class="currencies-container" aria-label="Currency icons"></section>
+
+  <!-- Chatbot Toggle Button -->
+  <button id="chatbot-toggle" class="circle-toggle" aria-label="Toggle chatbot">
+    <i class="bx bx-dollar-circle bx-lg"></i>
+  </button>
+
+  <!-- Social Links Section -->
+  <section class="social-icons hidden" id="social-icons" aria-label="Social media links">
+    <a href="https://github.com/yourusername" target="_blank" class="social-link" aria-label="GitHub profile">
+      <i class="bx bxl-github bx-border-circle"></i>
+    </a>
+    <a href="https://www.linkedin.com/in/yourusername" target="_blank" class="social-link"
+      aria-label="LinkedIn profile">
+      <i class="bx bxl-linkedin bx-border-circle"></i>
+    </a>
+    <a href="{{ url_for('static', filename='path/to/your/resume.pdf') }}" download class="social-link"
+      aria-label="Download resume">
+      <i class="bx bxs-file-pdf bx-border-circle"></i>
+    </a>
+  </section>
+
+  <!-- Chatbot Section -->
+  <section id="chatbot" class="chatbot-container collapsed" aria-label="Chatbot">
+    <!-- Chatbot Header -->
+    <header class="chatbot-header">
+      <div class="header-left">
+        <i class="bx bx-brain glowing-icon" aria-hidden="true"></i>
+        <div class="header-text">
+          <h1 class="header-title">Fenny</h1>
+          <span class="header-subtitle">- Your Personal Financial Assistant</span>
+        </div>
+      </div>
+      <div class="chatbot-controls">
+        <button class="maximize-btn" id="maximize-btn" aria-label="Maximize chatbot">
+          <i class="bx bx-plus"></i>
+        </button>
+        <button class="minimize-btn" id="minimize-btn" aria-label="Minimize chatbot">
+          <i class="bx bx-chevron-down"></i>
+        </button>
+      </div>
+    </header>
+
+    <!-- Chat Messages -->
+    <div class="chatbot-messages" id="message-box" role="log" aria-live="polite"></div>
+
+    <!-- File Upload Display -->
+    <div id="file-upload-display" class="file-upload-display hidden" aria-label="Uploaded file information">
+      <div class="file-upload-content">
+        <i class="bx bxs-file-pdf pdf-icon"></i>
+        <div class="file-info">
+          <div class="file-name-row">
+            <span id="file-name">File Name</span>
+          </div>
+          <div class="file-size-row">
+            <span id="file-size">File Size</span>
+          </div>
+        </div>
+        <button class="remove-file-btn" onclick="removeFile()">
+          <i class="bx bxs-x-circle"></i>
+        </button>
+      </div>
+      <div id="file-upload-spinner" class="file-upload-spinner hidden">
+        <div class="spinner"></div>
+      </div>
+    </div>
+
+    <!-- Chatbot Input Area -->
+    <div class="chatbot-input-area">
+      <div class="bottom-controls">
+        <div class="left-controls">
+          <label for="file-upload" class="file-upload-icon" aria-label="Upload file">
+            <i class="bx bx-paperclip bx-rotate-90"></i>
+          </label>
+          <input type="file" id="file-upload" class="file-input" accept="application/pdf" aria-label="File upload" />
+          <button class="settings-icon" aria-label="Open settings">
+            <i class="bx bx-cog"></i>
+          </button>
+        </div>
+        <div class="input-container">
+          <textarea class="message-input" id="message" placeholder="Type your message..."
+            aria-label="Type your message"></textarea>
+          <div id="word-count" class="word-count">0/100</div>
+          <button class="send-btn" onclick="send()" aria-label="Send message">
+            <i class="bx bxs-chevron-right-circle"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Scripts -->
+  <script type="module">
+    import "../static/js/chatbot.js";
+    import "../static/js/currencies.js";
+  </script>
+</body>
+
+</html>
