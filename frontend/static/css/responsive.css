@@ -23,30 +23,26 @@
 }
 
 @media (max-width: 480px) {
-  /* Adjust chatbot width and height for mobile devices */
+  /* Common adjustments for mobile devices */
   .chatbot-container {
     width: 90% !important;
     height: 60% !important;
   }
 
-  /* Hide social icons on small screens */
   .social-icons {
     display: none;
   }
 
-  /* Adjust currency icon size for mobile */
   .currency-slide i {
     font-size: 30px;
     margin: 0 10px;
   }
 
-  /* Adjust chatbot toggle button size */
   #chatbot-toggle {
     width: 50px;
     height: 50px;
   }
 
-  /* Adjust chatbot header font size */
   .chatbot-header .header-title {
     font-size: 16px;
   }
@@ -55,13 +51,11 @@
     font-size: 12px;
   }
 
-  /* Adjust message input height */
   .message-input {
     min-height: 50px;
     max-height: 100px;
   }
 
-  /* Adjust send button size */
   .send-btn {
     font-size: 28px;
     padding: 8px;
@@ -96,5 +90,14 @@
   .send-btn {
     font-size: 24px;
     padding: 6px;
+  }
+}
+
+/* ==================== */
+/* Responsive Design    */
+/* ==================== */
+@container (min-width: 400px) {
+  .chatbot-messages {
+    gap: 15px;
   }
 }

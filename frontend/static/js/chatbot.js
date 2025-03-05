@@ -25,25 +25,58 @@ const toggleClass = (element, className) => element.classList.toggle(className);
 const addClass = (element, className) => element.classList.add(className);
 const removeClass = (element, className) => element.classList.remove(className);
 
+// Add this utility function at the top with other utility functions
+const formatFileSize = (bytes) => {
+  if (bytes === 0) return '0 Bytes';
+  
+  const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+  const i = Math.floor(Math.log(bytes) / Math.log(1024));
+  
+  return `${(bytes / Math.pow(1024, i)).toFixed(2)} ${sizes[i]}`;
+};
+
 // Function to count words in a string
 const countWords = (text) => text.trim().split(/\s+/).filter(Boolean).length;
 
-// Display a message in the chat
-const displayMessage = (text, className, isFile = false) => {
+// Update the displayMessage function to include file size for file messages
+const displayMessage = (text, className, isFile = false, fileSize = null) => {
   const messageDiv = document.createElement('div');
   messageDiv.classList.add('chat-message-div', className);
+
+  const messageContent = document.createElement('div');
+  messageContent.classList.add('message-content');
+
+  if (isFile) {
+    const fileContainer = document.createElement('div');
+    fileContainer.classList.add('file-info-chat');
+    
+    const fileIcon = document.createElement('i');
+    fileIcon.classList.add('bx', 'bxs-file-pdf', 'pdf-icon');
+    
+    const fileInfoContent = document.createElement('div');
+    fileInfoContent.classList.add('file-info-content');
+    
+    const fileName = document.createElement('div');
+    fileName.classList.add('file-name-chat');
+    fileName.textContent = text;
+    
+    const fileSizeElement = document.createElement('div');
+    fileSizeElement.classList.add('file-size-chat');
+    fileSizeElement.textContent = formatFileSize(fileSize);
+    
+    fileInfoContent.appendChild(fileName);
+    fileInfoContent.appendChild(fileSizeElement);
+    
+    fileContainer.appendChild(fileIcon);
+    fileContainer.appendChild(fileInfoContent);
+    messageContent.appendChild(fileContainer);
+  } else {
+    messageContent.textContent = text;
+  }
 
   const timestampDiv = document.createElement('div');
   timestampDiv.classList.add('timestamp');
   timestampDiv.textContent = getCurrentTime();
-
-  const messageContent = document.createElement('div');
-  if (isFile) {
-    const fileIcon = document.createElement('i');
-    fileIcon.classList.add('bx', 'bxs-file-pdf', 'pdf-icon');
-    messageContent.appendChild(fileIcon);
-  }
-  messageContent.appendChild(document.createTextNode(text));
 
   messageDiv.appendChild(messageContent);
   messageDiv.appendChild(timestampDiv);
@@ -79,10 +112,10 @@ const simulateFileUpload = () => {
   }, 300);
 };
 
-// Handle file upload
+// Update the handleFileUpload function
 const handleFileUpload = (file) => {
   elements.fileNameDisplay.textContent = file.name;
-  elements.fileSizeDisplay.textContent = `${(file.size / 1024).toFixed(2)} KB`;
+  elements.fileSizeDisplay.textContent = formatFileSize(file.size);
   removeClass(elements.fileUploadDisplay, 'hidden');
   addClass(elements.fileUploadDisplay, 'expanded');
   simulateFileUpload();
@@ -97,7 +130,7 @@ const removeFile = () => {
   removeClass(elements.fileUploadDisplay, 'expanded');
 };
 
-// Send a message
+// Update the handleSendMessage function to include file size
 const handleSendMessage = () => {
   const message = elements.messageInput.value.trim();
 
@@ -112,7 +145,7 @@ const handleSendMessage = () => {
   if (elements.fileInput.files[0]) {
     const file = elements.fileInput.files[0];
     if (handleFileValidation(file)) {
-      displayMessage(file.name, 'chat-message-sent', true);
+      displayMessage(file.name, 'chat-message-sent', true, file.size);
       handleFileUpload(file);
     }
     elements.fileInput.value = '';

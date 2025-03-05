@@ -7,7 +7,7 @@
   --text-color: white;
   --hover-color: #0091ff;
   --glowing-gradient: linear-gradient(180deg, #ff6ec4, yellowgreen);
-  --border-radius: 20px;
+  --border-radius: 12px;
   --box-shadow: 0 8px 32px rgba(31, 31, 136, 0.5);
 }
 
@@ -70,12 +70,11 @@ body {
   bottom: 20px;
   right: 120px;
   display: flex;
-  gap: 12px;
+  gap: 20px;
   opacity: 0;
   transform: translateX(-30px);
   transition: opacity 0.3s ease, transform 0.3s ease;
   pointer-events: none;
-  
 }
 
 .social-icons.visible {
@@ -85,25 +84,46 @@ body {
 }
 
 .social-icons a {
+  width: 60px;
+  height: 60px;
   font-size: 30px;
   color: var(--text-color);
-  transition: transform 0.3s ease, color 0.3s ease;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(15px);
+  border: 2px solid rgba(255, 255, 255, 0.18); /* Reduced border width from 4px to 2px */
+  border-radius: 50%;
+  display: inline-flex; /* Changed to inline-flex */
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  box-shadow: var(--box-shadow);
+  text-decoration: none; /* Remove underline */
+  line-height: 1; /* Reset line height */
+}
+
+.social-icons i {
+  display: block; /* Ensure icon takes full space */
+  line-height: 0; /* Remove extra space around icon */
 }
 
 .social-icons a:hover {
-  transform: scale(1.6);
+  transform: translateY(-5px);
+  background: rgba(255, 255, 255, 0.25);
 }
 
 .social-icons .bxl-github:hover {
   color: #98fa28;
+  box-shadow: 0 8px 32px rgba(152, 250, 40, 0.3);
 }
 
 .social-icons .bxl-linkedin:hover {
   color: #0a70ff;
+  box-shadow: 0 8px 32px rgba(10, 112, 255, 0.3);
 }
 
 .social-icons .bxs-file-pdf:hover {
   color: #e74c3c;
+  box-shadow: 0 8px 32px rgba(231, 76, 60, 0.3);
 }
 
 /* ==================== */
@@ -230,7 +250,7 @@ body {
   align-self: flex-end;
   background-color: var(--primary-color);
   color: var(--text-color);
-  border-radius: 20px;
+  border-radius: 12px;
   animation: fadeIn 0.3s ease-in;
   display: flex; /* Changed from inline-block to flex */
   flex-direction: column; /* Stack content vertically */
@@ -267,7 +287,7 @@ body {
   font-size: 10px;
   font-style: italic;
   padding: 2px 6px;
-  border-radius: 8px;
+  border-radius: 12px;
   background-color: rgba(255, 255, 255, 0.2);
   backdrop-filter: blur(4px);
   margin-top: 2px;
@@ -296,7 +316,7 @@ body {
 .chat-message-received .pdf-icon {
   font-size: 32px; /* Increased from 24px */
   padding: 4px 8px;
-  border-radius: 8px;
+  border-radius: 12px;
   background-color: rgba(255, 255, 255, 0.2);
   backdrop-filter: blur(4px);
   margin-top: 4px;
@@ -382,7 +402,7 @@ body {
   min-height: 60px;
   max-height: 120px;
   border: 2px solid var(--hover-color);
-  border-radius: 20px;
+  border-radius: 12px;
   padding: 10px;
   font-size: 16px;
   resize: none;
@@ -406,7 +426,7 @@ body {
   color: #888;
   background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent background */
   padding: 2px 6px;
-  border-radius: 10px;
+  border-radius: 12px;
   pointer-events: none; /* Ensure the overlay doesn't interfere with textarea input */
 }
 
@@ -445,7 +465,7 @@ body {
   align-items: flex-start;
   padding: 10px;
   background: rgba(255, 255, 255, 0.9);
-  border-radius: 20px;
+  border-radius: 12px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   font-size: 14px;
   white-space: nowrap; /* Prevent text from wrapping */
@@ -520,7 +540,7 @@ body {
   text-transform: uppercase;
   background: rgba(0, 123, 255, 0.1);
   padding: 2px 6px;
-  border-radius: 4px;
+  border-radius: 12px;
   font-weight: 600;
   color: var(--primary-color);
 }
@@ -556,7 +576,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  border-radius: 20px;
+  border-radius: 12px;
   z-index: 2;
   backdrop-filter: blur(4px);
   animation: fadeScale 0.3s ease;
@@ -587,7 +607,7 @@ body {
   gap: 4px;
   padding: 8px 12px;
   background: rgba(255, 255, 255, 0.9);
-  border-radius: 15px;
+  border-radius: 12px;
   width: fit-content;
 }
 
@@ -693,4 +713,71 @@ body {
 /* Add scroll margin for better scroll behavior */
 .chat-message-div {
   scroll-margin: 1rem;
+}
+
+/* ==================== */
+/* File Info Chat       */
+/* ==================== */
+.file-info-chat {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 12px;
+  border-radius: 12px;
+  margin-top: 4px;
+  width: 100%;
+  transition: all 0.3s ease;
+}
+
+.chat-message-sent .file-info-chat {
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+}
+
+.chat-message-received .file-info-chat {
+  background: rgba(0, 0, 0, 0.05);
+  color: black;
+}
+
+/* Update PDF icon styling */
+.chat-message-sent .pdf-icon,
+.chat-message-received .pdf-icon {
+  font-size: 32px;
+  color: inherit;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  flex-shrink: 0;
+}
+
+.file-info-content {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+  min-width: 0; /* Ensures proper text truncation */
+}
+
+.file-name-chat {
+  font-weight: 500;
+  word-break: break-all;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.file-size-chat {
+  font-size: 0.8em;
+  opacity: 0.8;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Add hover effect to the entire file info box */
+.file-info-chat:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.file-info-chat:hover .pdf-icon {
+  transform: scale(1.1);
 }
