@@ -33,11 +33,14 @@ body {
 .currencies-container {
   width: 100%;
   overflow: hidden;
-  position: absolute;
+  position: fixed; /* Change from absolute to fixed */
   top: 0;
+  left: 0;
   padding-left: 24px;
   font-size: 30px;
   margin: 4px;
+  z-index: 1; /* Ensure proper stacking */
+  pointer-events: none; /* Prevent interaction */
 }
 
 /* ==================== */
@@ -431,29 +434,24 @@ body {
 }
 
 .send-btn {
-  /* Make width and height equal */
-  width: 50px;  /* You can adjust this value */
-  height: 50px;
-  
-  /* Center the content */
+  width: 45px;
+  height: 45px;
   display: flex;
   align-items: center;
   justify-content: center;
-  
-  /* Make it circular */
-  border-radius: 50%;
-  
-  /* Keep your existing styles */
-  font-size: 50px;
+  border-radius: 12px; /* Match other elements */
+  font-size: 24px;
   background-color: var(--primary-color);
   color: var(--text-color);
   border: none;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: all 0.3s ease;
 }
 
 .send-btn:hover {
   background-color: var(--hover-color);
+  transform: translateX(2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 /* ==================== */
