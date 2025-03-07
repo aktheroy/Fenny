@@ -232,7 +232,7 @@ body {
   padding: 10px;
   gap: 10px;
   overflow-y: auto;
-  height: calc(100% - 120px);
+  height: calc(100% - 130px);
   scroll-behavior: smooth;
 }
 
@@ -255,14 +255,15 @@ body {
   animation: fadeIn 0.3s ease-in;
   display: flex; /* Changed from inline-block to flex */
   flex-direction: column; /* Stack content vertically */
-  align-items: flex-start;
+  align-items: flex-end;
   gap: 4px;
+  justify-content: flex-end;
   word-wrap: break-word;
   overflow-wrap: break-word;
   max-width: 80%;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   margin-inline-start: auto;
-  position: relative; /* Add this for timestamp positioning */
+  position: inherit; /* Add this for timestamp positioning */
 }
 
 .chat-message-sent:hover,
@@ -273,15 +274,16 @@ body {
 
 .chat-message-received {
   align-self: flex-start;
-  background-color: rgba(255, 255, 255);
+  background-color: rgba(255, 255, 255, 0.800);
   color: black;
   display: flex; /* Add flex display */
-  flex-direction: column; /* Stack content vertically */
-  align-items: flex-start; /* Align content to the left */
+  flex-direction: row-reverse; /* Stack content vertically */
+  align-items: flex-end; /* Align content to the left */
   gap: 4px;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
-  margin-inline-end: auto;
   position: relative; /* Add this for timestamp positioning */
+  justify-content: flex-end; /* Center content horizontally */
+  flex-wrap: wrap; /* Allow content to wrap */
 }
 
 .timestamp {
@@ -394,7 +396,7 @@ body {
   flex: 1;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
 }
 
 .message-input {
