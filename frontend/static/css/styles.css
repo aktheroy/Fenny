@@ -39,8 +39,6 @@ body {
   padding-left: 24px;
   font-size: 30px;
   margin: 4px;
-  z-index: 1; /* Ensure proper stacking */
-  pointer-events: none; /* Prevent interaction */
 }
 
 /* ==================== */
