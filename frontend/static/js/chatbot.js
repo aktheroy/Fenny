@@ -130,57 +130,35 @@ const removeFile = () => {
   removeClass(elements.fileUploadDisplay, 'expanded');
 };
 
-// Update the handleSendMessage function
-const handleSendMessage = async () => {
+// Update the handleSendMessage function to include file size
+const handleSendMessage = () => {
   const message = elements.messageInput.value.trim();
 
   // Check word count
   const wordCount = countWords(message);
   if (wordCount > 100) {
-    alert('Message exceeds 100 words. Please shorten your message.');
-    return;
+    alert('Message exceeds 100 words. Please shorten your message.'); // Show alert
+    return; // Stop execution if word count exceeds 100
+  }
+
+  // Handle file upload
+  if (elements.fileInput.files[0]) {
+    const file = elements.fileInput.files[0];
+    if (handleFileValidation(file)) {
+      displayMessage(file.name, 'chat-message-sent', true, file.size);
+      handleFileUpload(file);
+    }
+    elements.fileInput.value = '';
+    addClass(elements.fileUploadDisplay, 'hidden');
+    removeClass(elements.fileUploadDisplay, 'expanded');
   }
 
   // Handle text messages
   if (message) {
-    // Display user message
     displayMessage(message, 'chat-message-sent');
     elements.messageInput.value = '';
-    elements.wordCount.textContent = '0/100';
+    elements.wordCount.textContent = '0/100'; // Reset word count
     resetTextareaHeight();
-
-    try {
-      // Show typing indicator
-      const typingIndicator = document.createElement('div');
-      typingIndicator.className = 'typing-indicator';
-      typingIndicator.innerHTML = '<span></span><span></span><span></span>';
-      elements.messageBox.appendChild(typingIndicator);
-
-      // Send message to backend
-      const response = await fetch('/chat', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ message }),
-      });
-
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-
-      const data = await response.json();
-      
-      // Remove typing indicator
-      typingIndicator.remove();
-
-      // Display bot response
-      displayMessage(data.response, 'chat-message-received');
-    } catch (error) {
-      console.error('Error:', error);
-      elements.messageBox.removeChild(typingIndicator);
-      displayMessage('Sorry, something went wrong. Please try again.', 'chat-message-received');
-    }
   }
 };
 
