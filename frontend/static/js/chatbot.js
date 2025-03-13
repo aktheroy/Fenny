@@ -130,8 +130,8 @@ const removeFile = () => {
   removeClass(elements.fileUploadDisplay, 'expanded');
 };
 
-// Update the handleSendMessage function to include file size
-const handleSendMessage = () => {
+// Update the handleSendMessage function
+const handleSendMessage = async () => {  // Make the function async
   const message = elements.messageInput.value.trim();
 
   // Check word count
@@ -155,10 +155,44 @@ const handleSendMessage = () => {
 
   // Handle text messages
   if (message) {
+    // Display user message
     displayMessage(message, 'chat-message-sent');
     elements.messageInput.value = '';
-    elements.wordCount.textContent = '0/100'; // Reset word count
+    elements.wordCount.textContent = '0/100';
     resetTextareaHeight();
+
+    try {
+      // Show typing indicator
+      const typingIndicator = document.createElement('div');
+      typingIndicator.classList.add('typing-indicator');
+      typingIndicator.innerHTML = '<span></span><span></span><span></span>';
+      elements.messageBox.appendChild(typingIndicator);
+
+      // Send message to backend
+      const response = await fetch('/chat', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ message }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      const data = await response.json();
+      
+      // Remove typing indicator
+      typingIndicator.remove();
+
+      // Display bot response
+      displayMessage(data.response, 'chat-message-received');
+    } catch (error) {
+      console.error('Error:', error);
+      typingIndicator?.remove();
+      displayMessage('Sorry, something went wrong. Please try again.', 'chat-message-received');
+    }
   }
 };
 
