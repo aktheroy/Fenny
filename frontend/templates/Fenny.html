@@ -3,19 +3,67 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Currency Background</title>
+    <title>Currency Chat - AI Assistant</title>
     <link
       href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
       rel="stylesheet"
     />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="../static/css/background.css" />
+    <link rel="stylesheet" href="../static/css/ChatContainer.css" />
   </head>
 
   <body>
-    <div class="ChatContainer">
-      <h1></h1>
-    </div>
+    <!-- Animated Currency Background -->
     <div class="currencies-container" id="currencies-container"></div>
-    <script src="../static/js/background.js" type="module"></script>
+    
+    <!-- Glassmorphism Chat Container -->
+    <div class="ChatContainer">
+      <div class="chat-header">
+        <h1>💬 AI Currency Assistant</h1>
+      </div>
+      
+      <div class="chat-messages" id="chat-messages">
+        <!-- Messages will be dynamically added here -->
+      </div>
+      
+      <div class="chat-input-outer-container">
+        <div class="chat-input-container">
+          <div class="chat-input-wrapper">
+            <div class="input-field-container">
+              <input 
+                type="text" 
+                id="chat-input" 
+                class="chat-input" 
+                placeholder="Type your message here..."
+                maxlength="500"
+              />
+            </div>
+            <div class="input-buttons-container">
+              <div class="input-left-buttons">
+                <button class="input-button" id="add-file-button" title="Add file">
+                  <i class="bi bi-plus-circle-fill"></i>
+                </button>
+                <button class="input-button" id="github-button" title="GitHub">
+                  <i class="bi bi-github"></i>
+                </button>
+              </div>
+              <div class="input-right-buttons">
+                <button id="send-button" class="input-button send-button" title="Send message">
+                  <i class="bi bi-arrow-up-circle-fill"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../static/js/background.js"></script>
+    <script src="../static/js/ChatContainer.js"></script>
   </body>
 </html>
