@@ -62,7 +62,7 @@ body {
 /* Sliding wrapper */
 .currency-slide {
     display: inline-flex;
-    animation: slide 120s linear infinite;
+    animation: slide 200s linear infinite;
 }
 
 .currency-slide.reverse {
@@ -87,10 +87,10 @@ body {
 .currency-slide i:hover::after {
     content: attr(title);
     position: absolute;
-    bottom: -10px;
+    bottom: 0px;
     left: 100%;
     transform: translateX(-50%);
-    background: rgba(0, 123, 255, 0.7);
+    background: rgba(72, 148, 230, 0.7);
     color: white;
     padding: 2px 6px;
     border-radius: 6px;
