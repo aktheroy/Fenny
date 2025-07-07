@@ -1,9 +1,9 @@
 :root {
     --primary-color: #00c8ff;
-    --background-color: #1f1f87;
+    --background-color: #0c42af;
     --hover-color: #00ffff;
     --glowing-gradient: linear-gradient(180deg, #ff6ec4, yellowgreen);
-    --box-shadow: 0 8px 32px rgba(31, 31, 136, 0.5);
+    --box-shadow: 0 8px 32px rgba(5, 5, 145, 0.8);
 }
 
 * {
