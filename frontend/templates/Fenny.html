@@ -1,75 +1,68 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Currency Chat - AI Assistant</title>
-    <link
-      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
-      rel="stylesheet"
-    />
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css"
-      rel="stylesheet"
-    />
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet" />
     <link rel="stylesheet" href="../static/css/background.css" />
     <link rel="stylesheet" href="../static/css/ChatContainer.css" />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
-    />
-  </head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+    <style>
+        /* CSS updates for the links */
+        .input-actions a {
+            text-decoration: none;
+            color: inherit;
+        }
+    </style>
+</head>
 
-  <body>
+<body>
     <!-- Animated Currency Background -->
     <div class="currencies-container" id="currencies-container"></div>
     <!-- Container for Fenny -->
     <div class="Fenny-Container">
-      <div class="Fenny-Card">
-        <!-- Chat Head/Header -->
-        <div class="chat-head">
-          <div class="header-left">
-            <i class="fa-solid fa-brain chat-head-icon"></i>
-            <div class="header-text">
-              <h1 class="header-title">Fenny</h1>
-              <span class="header-subtitle"
-                >- Your Personal Financial Assistant</span
-              >
-              <select
-                class="model-select"
-                title="Select Model"
-                style="margin-top: 8px"
-              >
-                <option value="gpt-3.5">GPT-3.5</option>
-                <option value="gpt-4">GPT-4</option>
-                <option value="fenny">Fenny</option>
-              </select>
+        <div class="Fenny-Card">
+            <!-- Chat Head/Header -->
+            <div class="chat-head">
+                <div class="header-left">
+                    <i class="fa-solid fa-brain chat-head-icon"></i>
+                    <div class="header-text">
+                        <h1 class="header-title">Fenny</h1>
+                        <span class="header-subtitle">- Your Personal Financial Assistant</span>
+                        <select class="model-select" title="Select Model" style="margin-top: 8px">
+                            <option value="fenny">Fenny</option>
+                            <option value="george">George</option>
+                            <option value="kiskina">Kiskina</option>
+                        </select>
+                    </div>
+                </div>
             </div>
-          </div>
+            <div class="fenny-interaction-container">
+                <div class="pill-input-container">
+                    <input type="text" class="pill-input" placeholder="How can I help you today?" />
+                    <button class="pill-send-btn" title="Send">
+                        <i class="fa-solid fa-circle-arrow-up"></i>
+                    </button>
+                </div>
+                <div class="input-actions">
+                    <button class="pill-icon-btn" title="Attach file">
+                        <i class="fa-solid fa-circle-plus"></i>
+                    </button>
+                    <!-- Updated GitHub link -->
+                    <a class="pill-icon-btn" title="GitHub" href="https://github.com/aktheroy" target="_blank">
+                        <i class="fa-brands fa-github"></i>
+                    </a>
+                    <!-- Updated LinkedIn link -->
+                    <a class="pill-icon-btn" title="LinkedIn" href="https://www.linkedin.com/in/aktheroy/" target="_blank">
+                        <i class="fa-brands fa-linkedin"></i>
+                    </a>
+                </div>
+            </div>
         </div>
-        <div class="fenny-interaction-container">
-          <div class="pill-input-container">
-            <input
-              type="text"
-              class="pill-input"
-              placeholder="How can I help you today?"
-            />
-            <button class="pill-send-btn" title="Send">
-              <i class="fa-solid fa-circle-arrow-up"></i>
-            </button>
-          </div>
-          <div class="input-actions">
-            <button class="pill-icon-btn" title="Attach file">
-              <i class="fa-solid fa-circle-plus"></i>
-            </button>
-            <button class="pill-icon-btn" title="GitHub">
-              <i class="fa-brands fa-github"></i>
-            </button>
-          </div>
-        </div>
-      </div>
     </div>
     <script src="../static/js/background.js"></script>
     <script src="../static/js/ChatContainer.js"></script>
-  </body>
+</body>
 </html>
