@@ -14,33 +14,61 @@
     />
     <link rel="stylesheet" href="../static/css/background.css" />
     <link rel="stylesheet" href="../static/css/ChatContainer.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    />
   </head>
+
   <body>
     <!-- Animated Currency Background -->
     <div class="currencies-container" id="currencies-container"></div>
-    <!-- Conatianer for Fenny -->
+    <!-- Container for Fenny -->
     <div class="Fenny-Container">
       <div class="Fenny-Card">
-        <div class="greeting">
-          <i
-            class="bi bi-currency-exchange"
-            style="font-size: 2rem; margin-right: 12px;"
-          ></i>
-          <span>Welcome to Fenny! Your currency expert.</span>
+        <!-- Chat Head/Header -->
+        <div class="chat-head">
+          <div class="header-left">
+            <i class="fa-solid fa-brain chat-head-icon"></i>
+            <div class="header-text">
+              <h1 class="header-title">Fenny</h1>
+              <span class="header-subtitle"
+                >- Your Personal Financial Assistant</span
+              >
+              <select
+                class="model-select"
+                title="Select Model"
+                style="margin-top: 8px"
+              >
+                <option value="gpt-3.5">GPT-3.5</option>
+                <option value="gpt-4">GPT-4</option>
+                <option value="fenny">Fenny</option>
+              </select>
+            </div>
+          </div>
         </div>
-        <div class="pill-input-container">
-          <input
-            type="text"
-            class="pill-input"
-            placeholder="Type your message..."
-          />
-          <button class="pill-icon-btn" title="Add file">
-            <i class="bi bi-paperclip"></i>
-          </button>
+        <div class="fenny-interaction-container">
+          <div class="pill-input-container">
+            <input
+              type="text"
+              class="pill-input"
+              placeholder="How can I help you today?"
+            />
+            <button class="pill-send-btn" title="Send">
+              <i class="fa-solid fa-circle-arrow-up"></i>
+            </button>
+          </div>
+          <div class="input-actions">
+            <button class="pill-icon-btn" title="Attach file">
+              <i class="fa-solid fa-circle-plus"></i>
+            </button>
+            <button class="pill-icon-btn" title="GitHub">
+              <i class="fa-brands fa-github"></i>
+            </button>
+          </div>
         </div>
       </div>
     </div>
-
     <script src="../static/js/background.js"></script>
     <script src="../static/js/ChatContainer.js"></script>
   </body>
