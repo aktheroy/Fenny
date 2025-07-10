@@ -2,10 +2,10 @@
   --primary-color: #00c8ff;
   --secondary-color: #0c42af;
   --text-color: #ffffff;
-  --subtext-color: #69b6cb;
+  --subtext-color: #57cced;
   --glass-bg: rgba(255, 255, 255, 0.13);
   --glass-border: rgba(255, 255, 255, 0.2);
-  --border: #88ff00;
+  --border: #5ccef1;
   --input-bg: rgba(255, 255, 255, 0.08);
   --icon-size: 1.8rem;
   --large-icon-size: 2rem;
@@ -254,7 +254,7 @@ body {
   will-change: transform;
 }
 .action-btn:hover, .social-btn:hover, .send-btn:hover {
-  transform: scale(1.4);
+  transform: scale(1.2);
   color: var(--border);
 }
 
