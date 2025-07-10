@@ -1,115 +1,140 @@
 document.addEventListener("DOMContentLoaded", function () {
-  const userInput = document.getElementById("user-input");
-  const sendBtn = document.getElementById("send-btn");
-  const attachBtn = document.getElementById("attach-btn");
-  const chatMessages = document.getElementById("chat-messages");
+  // Cache DOM elements
+  const elements = {
+    userInput: document.getElementById("user-input"),
+    sendBtn: document.getElementById("send-btn"),
+    attachBtn: document.getElementById("attach-btn"),
+    chatMessages: document.getElementById("chat-messages"),
+    modelSelect: document.querySelector(".model-select")
+  };
 
-  // Auto-resize textarea
-  userInput.addEventListener("input", function () {
+  // Bot response templates
+  const responses = [
+    "I've analyzed your financial query and here's my assessment...",
+    "Based on current market data, I recommend considering...",
+    "From an investment perspective, this looks interesting...",
+    "Here's my analysis of your question with key insights...",
+    "Let me break down the financial implications for you...",
+    "According to recent market trends, you should know..."
+  ];
+
+  // Initialize all event listeners
+  function initializeEventListeners() {
+    // Auto-resize textarea and handle input
+    elements.userInput.addEventListener("input", handleTextareaResize);
+    
+    // Handle keyboard shortcuts
+    elements.userInput.addEventListener("keydown", handleKeyPress);
+    
+    // Send button click
+    elements.sendBtn.addEventListener("click", sendMessage);
+    
+    // File attachment (simplified)
+    elements.attachBtn.addEventListener("click", handleFileAttachment);
+    
+    // Model selection
+    elements.modelSelect.addEventListener("change", handleModelChange);
+  }
+
+  // Handle textarea auto-resize
+  function handleTextareaResize() {
     this.style.height = "auto";
     this.style.height = Math.min(this.scrollHeight, 150) + "px";
-  });
+  }
 
-  // Send message on Enter (but allow Shift+Enter for new lines)
-  userInput.addEventListener("keydown", function (e) {
+  // Handle keyboard input
+  function handleKeyPress(e) {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
       sendMessage();
     }
-  });
+  }
 
-  // Send button click handler
-  sendBtn.addEventListener("click", sendMessage);
-
-  // File attachment handler
-  attachBtn.addEventListener("click", function () {
+  // Handle file attachment
+  function handleFileAttachment() {
     const fileInput = document.createElement("input");
     fileInput.type = "file";
     fileInput.accept = ".txt,.pdf,.doc,.docx,.xls,.xlsx,.csv,.png,.jpg,.jpeg";
-
+    
     fileInput.onchange = (e) => {
       const file = e.target.files[0];
       if (file) {
-        addMessage(`Attachment: ${file.name}`, true);
+        addMessage(`📎 Attached: ${file.name}`, true);
         simulateBotResponse();
       }
     };
-
-    fileInput.click();
-  });
-
-  function sendMessage() {
-    const message = userInput.value.trim();
-    if (message) {
-      addMessage(message, true);
-      userInput.value = "";
-      userInput.style.height = "auto";
-      simulateBotResponse();
-    }
-  }
-
-  function addMessage(content, isUser) {
-    const messageDiv = document.createElement("div");
-    messageDiv.classList.add("message");
-    messageDiv.classList.add(isUser ? "user-message" : "bot-message");
-
-    // Get current time
-    const now = new Date();
-    const hours = now.getHours().toString().padStart(2, "0");
-    const minutes = now.getMinutes().toString().padStart(2, "0");
-    const timeString = `${hours}:${minutes}`;
-
-    // Create message content
-    const contentDiv = document.createElement("div");
-    contentDiv.className = "message-content";
-    contentDiv.textContent = content;
-
-    // Create timestamp
-    const timestampDiv = document.createElement("div");
-    timestampDiv.className = "message-timestamp";
-    timestampDiv.textContent = timeString;
-
-    // Append elements
-    messageDiv.appendChild(contentDiv);
-    messageDiv.appendChild(timestampDiv);
-
-    chatMessages.appendChild(messageDiv);
-    scrollToBottom();
-  }
-
-  function scrollToBottom() {
-    chatMessages.scrollTop = chatMessages.scrollHeight;
-  }
-
-  function showTypingIndicator() {
-    const typingDiv = document.createElement("div");
-    typingDiv.classList.add("typing-indicator");
     
-    typingDiv.innerHTML = `
-      <i class="fa-solid fa-coin-front"></i>
-      <span class="text">Thinking...</span>
+    fileInput.click();
+  }
+
+  // Handle model selection
+  function handleModelChange() {
+    const selectedModel = this.value;
+    console.log(`Switched to model: ${selectedModel}`);
+    // Add model-specific logic here if needed
+  }
+
+  // Send message function
+  function sendMessage() {
+    const message = elements.userInput.value.trim();
+    if (!message) return;
+    
+    addMessage(message, true);
+    elements.userInput.value = "";
+    elements.userInput.style.height = "auto";
+    simulateBotResponse();
+  }
+
+  // Optimized message creation
+  function addMessage(content, isUser) {
+    const timestamp = new Date().toLocaleTimeString('en-US', { 
+      hour12: false, 
+      hour: '2-digit', 
+      minute: '2-digit' 
+    });
+    
+    const messageHTML = `
+      <div class="message ${isUser ? 'user-message' : 'bot-message'}">
+        <div class="message-content">${content}</div>
+        <div class="message-timestamp">${timestamp}</div>
+      </div>
     `;
     
-    chatMessages.appendChild(typingDiv);
+    elements.chatMessages.insertAdjacentHTML('beforeend', messageHTML);
     scrollToBottom();
-    return typingDiv;
   }
 
+  // Optimized scroll function
+  function scrollToBottom() {
+    elements.chatMessages.scrollTop = elements.chatMessages.scrollHeight;
+  }
+
+  // Optimized typing indicator
+  function showTypingIndicator() {
+    const typingHTML = `
+      <div class="typing-indicator">
+        <i class="fa-solid fa-coin-front"></i>
+        <span class="text">Thinking...</span>
+      </div>
+    `;
+    
+    elements.chatMessages.insertAdjacentHTML('beforeend', typingHTML);
+    scrollToBottom();
+    return elements.chatMessages.lastElementChild;
+  }
+
+  // Simulate bot response with random delay
   function simulateBotResponse() {
     const typingIndicator = showTypingIndicator();
-
+    const responseDelay = 1500 + Math.random() * 2000;
+    
     setTimeout(() => {
-      chatMessages.removeChild(typingIndicator);
-
-      const responses = [
-        "I've analyzed your financial query...",
-        "Based on market data, I recommend...",
-        "From an investment perspective...",
-        "Here's my analysis of your question...",
-      ];
+      typingIndicator.remove();
       const response = responses[Math.floor(Math.random() * responses.length)];
-
       addMessage(response, false);
-    }, 1500 + Math.random() * 2000);
+    }, responseDelay);
   }
+
+  // Initialize the application
+  initializeEventListeners();
 });

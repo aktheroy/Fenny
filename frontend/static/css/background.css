@@ -1,9 +1,7 @@
 :root {
     --primary-color: #00c8ff;
     --background-color: #0c42af;
-    --hover-color: #00ffff;
-    --box-shadow: 0 8px 32px rgba(5, 5, 145, 0.8);
-    --icon-size: clamp(2rem, 4vw, 4rem); /* Responsive icon sizing */
+    --icon-size: clamp(2rem, 4vw, 4rem);
 }
 
 * {
@@ -16,18 +14,18 @@ body {
     background: var(--background-color);
     height: 100vh;
     overflow: hidden;
-    overscroll-behavior: none; /* Prevent scroll chaining */
+    overscroll-behavior: none;
 }
 
 /* Container holding all currency rows */
 .currencies-container {
     position: fixed;
-    inset: 0; /* Shorthand for top/right/bottom/left */
+    inset: 0;
     width: 100vw;
     height: 100vh;
-    contain: strict; /* Performance optimization */
+    contain: strict;
     will-change: transform;
-    z-index: 1; /* Ensure it stays on top */
+    z-index: 1;
     pointer-events: auto;
 }
 
@@ -38,10 +36,10 @@ body {
     position: relative;
     width: 100%;
     height: 10vh;
-    contain: content; /* Limits browser recalculations */
+    contain: content;
 }
 
-/* Gradient edge fade - optimized with will-change */
+/* Gradient edge fade */
 .currency::before,
 .currency::after {
     content: "";
@@ -64,7 +62,7 @@ body {
     background: linear-gradient(270deg, var(--background-color) 0%, transparent 100%);
 }
 
-/* Sliding wrapper - optimized animations */
+/* Sliding wrapper */
 .currency-slide {
     display: inline-flex;
     animation: slide 200s linear infinite;
@@ -77,45 +75,25 @@ body {
     animation-direction: reverse;
 }
 
-/* Icon styling - optimized transitions */
+/* Icon styling */
 .currency-slide i {
     font-size: var(--icon-size);
-    margin: 0 clamp(1rem, 2vw, 2rem); /* Responsive spacing */
+    margin: 0 clamp(1rem, 2vw, 2rem);
     color: var(--primary-color);
     transition: 
         transform 0.2s cubic-bezier(0.18, 0.89, 0.32, 1.28),
         color 0.15s ease;
     will-change: transform, color;
-    transform: translateZ(0); /* GPU acceleration */
+    transform: translateZ(0);
     padding: 0.5rem;
 }
 
 .currency-slide i:hover {
     transform: scale(1.2) translateZ(0);
-    color: var(--hover-color);
+    color: var(--hover-color, #00ffff);
 }
 
-/* Tooltip styling */
-.currency-slide i:hover::after {
-    content: attr(title);
-    position: absolute;
-    bottom: 100%;
-    left: 50%;
-    transform: translateX(-50%);
-    background: rgba(72, 148, 230, 0.9);
-    color: white;
-    padding: 0.25rem 0.5rem;
-    border-radius: 4px;
-    font-size: 0.75rem;
-    font-family: system-ui, sans-serif;
-    white-space: nowrap;
-    pointer-events: none;
-    z-index: 10;
-    backdrop-filter: blur(2px);
-    min-width: max-content;
-}
-
-/* Animation definition - smoother with translateZ */
+/* Animation definition */
 @keyframes slide {
     from {
         transform: translate3d(0, 0, 0);
@@ -125,23 +103,9 @@ body {
     }
 }
 
-/* Performance optimizations for mobile */
-@media (hover: none) {
-    .currency-slide i {
-        pointer-events: none;
-        transition: none;
-    }
-    
-    .currency::before,
-    .currency::after {
-        display: none;
-    }
-}
-
 /* Reduced motion preference */
 @media (prefers-reduced-motion: reduce) {
     .currency-slide {
         animation: none !important;
     }
 }
-
