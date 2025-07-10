@@ -3,28 +3,32 @@
     --background-color: #0c42af;
     --hover-color: #00ffff;
     --box-shadow: 0 8px 32px rgba(5, 5, 145, 0.8);
+    --icon-size: clamp(2rem, 4vw, 4rem); /* Responsive icon sizing */
 }
 
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    font-family: system-ui, sans-serif;
 }
 
 body {
     background: var(--background-color);
     height: 100vh;
     overflow: hidden;
+    overscroll-behavior: none; /* Prevent scroll chaining */
 }
 
 /* Container holding all currency rows */
 .currencies-container {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    inset: 0; /* Shorthand for top/right/bottom/left */
+    width: 100vw;
+    height: 100vh;
+    contain: strict; /* Performance optimization */
+    will-change: transform;
+    z-index: 1; /* Ensure it stays on top */
+    pointer-events: auto;
 }
 
 /* Each row of currency icons */
@@ -34,77 +38,110 @@ body {
     position: relative;
     width: 100%;
     height: 10vh;
+    contain: content; /* Limits browser recalculations */
 }
 
-/* Gradient edge fade */
+/* Gradient edge fade - optimized with will-change */
 .currency::before,
 .currency::after {
     content: "";
     position: absolute;
     top: 0;
-    width: 150px;
+    width: min(150px, 15vw);
     height: 100%;
     z-index: 2;
     pointer-events: none;
+    will-change: opacity;
 }
 
 .currency::before {
     left: 0;
-    background: linear-gradient(to right, var(--background-color), transparent);
+    background: linear-gradient(90deg, var(--background-color) 0%, transparent 100%);
 }
 
 .currency::after {
     right: 0;
-    background: linear-gradient(to left, var(--background-color), transparent);
+    background: linear-gradient(270deg, var(--background-color) 0%, transparent 100%);
 }
 
-/* Sliding wrapper */
+/* Sliding wrapper - optimized animations */
 .currency-slide {
     display: inline-flex;
     animation: slide 200s linear infinite;
+    will-change: transform;
+    backface-visibility: hidden;
+    transform-style: preserve-3d;
 }
 
 .currency-slide.reverse {
     animation-direction: reverse;
 }
 
-/* Icon styling */
+/* Icon styling - optimized transitions */
 .currency-slide i {
-    font-size: 64px;
-    margin: 0 32px;
+    font-size: var(--icon-size);
+    margin: 0 clamp(1rem, 2vw, 2rem); /* Responsive spacing */
     color: var(--primary-color);
-    transition: transform 0.3s, color 0.3s;
-    position: relative;
+    transition: 
+        transform 0.2s cubic-bezier(0.18, 0.89, 0.32, 1.28),
+        color 0.15s ease;
+    will-change: transform, color;
+    transform: translateZ(0); /* GPU acceleration */
+    padding: 0.5rem;
 }
 
 .currency-slide i:hover {
-    transform: scale(1.2);
+    transform: scale(1.2) translateZ(0);
     color: var(--hover-color);
 }
 
-/* Simple hover tooltip using title attribute (or use custom with ::after) */
+/* Tooltip styling */
 .currency-slide i:hover::after {
     content: attr(title);
     position: absolute;
-    bottom: 0px;
-    left: 100%;
+    bottom: 100%;
+    left: 50%;
     transform: translateX(-50%);
-    background: rgba(72, 148, 230, 0.7);
+    background: rgba(72, 148, 230, 0.9);
     color: white;
-    padding: 2px 6px;
-    border-radius: 6px;
-    font-size: 12px;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-family: system-ui, sans-serif;
     white-space: nowrap;
     pointer-events: none;
+    z-index: 10;
+    backdrop-filter: blur(2px);
+    min-width: max-content;
 }
 
-/* Animation definition */
+/* Animation definition - smoother with translateZ */
 @keyframes slide {
-    0% {
-        transform: translateX(0%);
+    from {
+        transform: translate3d(0, 0, 0);
     }
-
-    100% {
-        transform: translateX(-50%);
+    to {
+        transform: translate3d(-50%, 0, 0);
     }
 }
+
+/* Performance optimizations for mobile */
+@media (hover: none) {
+    .currency-slide i {
+        pointer-events: none;
+        transition: none;
+    }
+    
+    .currency::before,
+    .currency::after {
+        display: none;
+    }
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+    .currency-slide {
+        animation: none !important;
+    }
+}
+
