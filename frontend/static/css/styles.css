@@ -1,0 +1,781 @@
+/* ==================== */
+/* Global Styles        */
+/* ==================== */
+:root {
+  --primary-color: #007bff;
+  --background-color: #1f1f87;
+  --text-color: white;
+  --hover-color: #0091ff;
+  --glowing-gradient: linear-gradient(180deg, #ff6ec4, yellowgreen);
+  --border-radius: 12px;
+  --box-shadow: 0 8px 32px rgba(31, 31, 136, 0.5);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+}
+
+body {
+  background: var(--background-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ==================== */
+/* Currency Styles      */
+/* ==================== */
+.currencies-container {
+  width: 100%;
+  overflow: hidden;
+  position: fixed; /* Change from absolute to fixed */
+  top: 0;
+  left: 0;
+  padding-left: 24px;
+  font-size: 30px;
+  margin: 4px;
+}
+
+/* ==================== */
+/* Chatbot Toggle       */
+/* ==================== */
+#chatbot-toggle {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: var(--primary-color);
+  color: var(--text-color);
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: var(--box-shadow);
+  z-index: 10;
+  animation: bounce 2s infinite;
+}
+
+/* ==================== */
+/* Social Icons         */
+/* ==================== */
+.social-icons {
+  position: fixed;
+  bottom: 20px;
+  right: 120px;
+  display: flex;
+  gap: 20px;
+  opacity: 0;
+  transform: translateX(-30px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  pointer-events: none;
+}
+
+.social-icons.visible {
+  opacity: 1;
+  transform: translateX(0);
+  pointer-events: auto;
+}
+
+.social-icons a {
+  width: 60px;
+  height: 60px;
+  font-size: 30px;
+  color: var(--text-color);
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(15px);
+  border: 2px solid rgba(255, 255, 255, 0.18); /* Reduced border width from 4px to 2px */
+  border-radius: 50%;
+  display: inline-flex; /* Changed to inline-flex */
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  box-shadow: var(--box-shadow);
+  text-decoration: none; /* Remove underline */
+  line-height: 1; /* Reset line height */
+}
+
+.social-icons i {
+  display: block; /* Ensure icon takes full space */
+  line-height: 0; /* Remove extra space around icon */
+}
+
+.social-icons a:hover {
+  transform: translateY(-5px);
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.social-icons .bxl-github:hover {
+  color: #98fa28;
+  box-shadow: 0 8px 32px rgba(152, 250, 40, 0.3);
+}
+
+.social-icons .bxl-linkedin:hover {
+  color: #0a70ff;
+  box-shadow: 0 8px 32px rgba(10, 112, 255, 0.3);
+}
+
+.social-icons .bxs-file-pdf:hover {
+  color: #e74c3c;
+  box-shadow: 0 8px 32px rgba(231, 76, 60, 0.3);
+}
+
+/* ==================== */
+/* Chatbot Container    */
+/* ==================== */
+.chatbot-container {
+  position: fixed;
+  bottom: 100px;
+  right: 20px;
+  width: calc(40% - 140px);
+  height: calc(70% - 140px);
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(15px);
+  border: 2px solid rgba(255, 255, 255, 0.18);
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  transition: all 0.5s;
+  box-shadow: var(--box-shadow);
+  opacity: 1;
+  z-index: 9;
+  max-width: 90%;
+}
+
+.chatbot-container.maximized {
+  width: 80%;
+  height: 80%;
+}
+
+.chatbot-container.collapsed {
+  width: 0;
+  height: 0;
+  opacity: 0;
+}
+
+/* ==================== */
+/* Chatbot Header       */
+/* ==================== */
+.chatbot-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 6px;
+  color: var(--text-color);
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+}
+
+.glowing-icon {
+  font-size: 40px;
+  margin-right: 10px;
+  background: var(--glowing-gradient);
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: glow 2s infinite alternate;
+}
+
+.header-title {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.header-subtitle {
+  font-size: 14px;
+  font-style: italic;
+  color: #ccc;
+}
+
+.chatbot-controls {
+  display: flex;
+  gap: 10px;
+}
+
+.minimize-btn,
+.maximize-btn {
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+.minimize-btn i,
+.maximize-btn i {
+  font-size: 30px;
+  color: #8c8980;
+  transition: color 0.3s ease;
+}
+
+.minimize-btn:hover i {
+  color: #ffd900;
+}
+
+.maximize-btn:hover i {
+  color: #16b438;
+}
+
+/* ==================== */
+/* Chat Messages        */
+/* ==================== */
+.chatbot-messages {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: 10px;
+  gap: 10px;
+  overflow-y: auto;
+  height: calc(100% - 130px);
+  scroll-behavior: smooth;
+}
+
+.chat-message-div {
+  display: flex;
+  flex-direction: column;
+  max-width: 80%;
+  word-wrap: break-word;
+  padding: 10px;
+  border-radius: var(--border-radius);
+  font-size: 14px;
+  scroll-margin: 1rem;
+}
+
+.chat-message-sent {
+  align-self: flex-end;
+  background-color: var(--primary-color);
+  color: var(--text-color);
+  border-radius: 12px;
+  animation: fadeIn 0.3s ease-in;
+  display: flex; /* Changed from inline-block to flex */
+  flex-direction: column; /* Stack content vertically */
+  align-items: flex-end;
+  gap: 4px;
+  justify-content: flex-end;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  max-width: 80%;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  margin-inline-start: auto;
+  position: inherit; /* Add this for timestamp positioning */
+}
+
+.chat-message-sent:hover,
+.chat-message-received:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.chat-message-received {
+  align-self: flex-start;
+  background-color: rgba(255, 255, 255, 0.800);
+  color: black;
+  display: flex; /* Add flex display */
+  flex-direction: row-reverse; /* Stack content vertically */
+  align-items: flex-end; /* Align content to the left */
+  gap: 4px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  position: relative; /* Add this for timestamp positioning */
+  justify-content: flex-end; /* Center content horizontally */
+  flex-wrap: wrap; /* Allow content to wrap */
+}
+
+.timestamp {
+  font-size: 10px;
+  font-style: italic;
+  padding: 2px 6px;
+  border-radius: 12px;
+  background-color: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(4px);
+  margin-top: 2px;
+  align-self: flex-end; /* Always align to the right */
+  order: 2; /* Ensure timestamp appears after message content */
+}
+
+/* Add these specific timestamp styles for sent/received messages */
+.chat-message-sent .timestamp {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.chat-message-received .timestamp {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+/* Add message content wrapper */
+.message-content {
+  width: 100%;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+/* Update the PDF icon styling to match timestamp */
+.chat-message-sent .pdf-icon,
+.chat-message-received .pdf-icon {
+  font-size: 32px; /* Increased from 24px */
+  padding: 4px 8px;
+  border-radius: 12px;
+  background-color: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(4px);
+  margin-top: 4px;
+  align-self: flex-end;
+  order: 2;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+/* Specific styles for sent/received messages */
+.chat-message-sent .pdf-icon {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.chat-message-received .pdf-icon {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+/* Add hover effect */
+.chat-message-sent .pdf-icon:hover,
+.chat-message-received .pdf-icon:hover {
+  transform: scale(1.1);
+}
+
+/* ==================== */
+/* Chatbot Input Area   */
+/* ==================== */
+.chatbot-input-area {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px;
+  border-radius: 0 0 var(--border-radius) var(--border-radius);
+  background: rgba(255, 255, 255, 0);
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+}
+
+.bottom-controls {
+  display: flex;
+  align-items: center; /* Align items vertically in the center */
+  gap: 10px; /* Space between left controls and input container */
+  width: 100%;
+}
+
+.left-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: space-around;
+  width: 7%;
+}
+
+.file-upload-icon,
+.settings-icon {
+  font-size: 24px;
+  color: var(--text-color);
+  cursor: pointer;
+  background: transparent; /* Ensure no background */
+  padding: 0; /* Remove padding */
+  border: none; /* Remove border if any */
+}
+
+.file-input {
+  display: none;
+}
+.input-container {
+  position: relative;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.message-input {
+  flex: 1;
+  width: 100%;
+  min-height: 60px;
+  max-height: 120px;
+  border: 2px solid var(--hover-color);
+  border-radius: 12px;
+  padding: 10px;
+  font-size: 16px;
+  resize: none;
+  overflow-y: auto;
+  outline: none;
+  padding-right: 60px; /* Add padding to avoid text overlapping the word count */
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  background: rgba(255, 255, 255);
+}
+
+.message-input:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+}
+
+.word-count {
+  position: absolute;
+  bottom: 10px;
+  right: 64px;
+  font-size: 12px;
+  color: #888;
+  background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent background */
+  padding: 2px 6px;
+  border-radius: 12px;
+  pointer-events: none; /* Ensure the overlay doesn't interfere with textarea input */
+}
+
+.send-btn {
+  width: 45px;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px; /* Match other elements */
+  font-size: 24px;
+  background-color: var(--primary-color);
+  color: var(--text-color);
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.send-btn:hover {
+  background-color: var(--hover-color);
+  transform: translateX(2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* ==================== */
+/* File Upload Display  */
+/* ==================== */
+/* styles.css */
+.file-upload-display {
+  display: flex;
+  align-items: flex-start;
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  font-size: 14px;
+  white-space: nowrap; /* Prevent text from wrapping */
+  overflow: hidden; /* Hide overflow */
+  text-overflow: ellipsis; /* Show ellipsis for overflow text */
+  z-index: 10;
+  width: 40%; /* Adjust width as needed */
+  max-width: 200px; /* Set a maximum width */
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: absolute;
+  bottom: 100px;
+  left: 5px;
+  right: 0;
+  transform: translateY(120%);
+  opacity: 0;
+}
+
+.file-upload-display.expanded {
+  transform: translateY(20%);
+  opacity: 1;
+  animation: slideIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.file-upload-display.hidden {
+  display: none;
+}
+
+.file-upload-content {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  overflow: hidden; /* Ensure content doesn't overflow */
+}
+.pdf-icon {
+  font-size: 32px; /* Increase the size of the PDF icon */
+  color: #ff4b4b;
+  padding-right: 10px;
+  z-index: 3;
+  align-self: center;
+}
+
+.file-info {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 4px;
+  flex: 1;
+  overflow: hidden; /* Ensure text doesn't overflow */
+}
+
+.file-name-row {
+  display: flex;
+  align-items: center;
+  font-weight: 600;
+  color: #2b2b2b;
+  overflow: hidden; /* Ensure text doesn't overflow */
+  text-overflow: ellipsis; /* Show ellipsis for overflow text */
+  white-space: nowrap; /* Prevent text from wrapping */
+  font-size: 14px;
+}
+
+.file-size-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #666;
+  font-size: 12px;
+  transition: all 0.3s ease;
+}
+
+.file-type {
+  text-transform: uppercase;
+  background: rgba(0, 123, 255, 0.1);
+  padding: 2px 6px;
+  border-radius: 12px;
+  font-weight: 600;
+  color: var(--primary-color);
+}
+
+.remove-file-btn {
+  background: none;
+  border: none;
+  font-size: 20px;
+  color: #c71e0b;
+  cursor: pointer;
+  transition: color 0.3s ease;
+  flex-shrink: 0; /* Prevent the button from shrinking */
+}
+
+.remove-file-btn:hover {
+  color: #fd1b02;
+}
+
+.file-size {
+  font-variant-numeric: tabular-nums; /* Makes numbers align better */
+  min-width: 70px; /* Ensures consistent spacing */
+  text-align: right; /* Aligns numbers to the right */
+  color: #666;
+}
+
+.file-upload-spinner {
+  position: absolute;
+  top: 0;
+  left: 5px;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  border-radius: 12px;
+  z-index: 2;
+  backdrop-filter: blur(4px);
+  animation: fadeScale 0.3s ease;
+}
+
+.file-upload-spinner.hidden {
+  display: none;
+}
+
+.spinner {
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  border-top: 4px solid var(--primary-color);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+/* Add typing indicator animation */
+@keyframes typingDots {
+  0%, 20% { transform: translateY(0px); }
+  50% { transform: translateY(-5px); }
+  80%, 100% { transform: translateY(0px); }
+}
+
+.typing-indicator {
+  display: flex;
+  gap: 4px;
+  padding: 8px 12px;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 12px;
+  width: fit-content;
+}
+
+.typing-indicator span {
+  width: 6px;
+  height: 6px;
+  background: var(--primary-color);
+  border-radius: 50%;
+  animation: typingDots 1s infinite;
+}
+
+.typing-indicator span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.typing-indicator span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+/* ==================== */
+/* Animations           */
+/* ==================== */
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-10px);
+  }
+  60% {
+    transform: translateY(-5px);
+  }
+}
+
+@keyframes glow {
+  0% {
+    text-shadow: 0 0 5px #ff6ec4, 0 0 10px #7873f5, 0 0 15px #ff6ec4;
+  }
+  100% {
+    text-shadow: 0 0 20px #ff6ec4, 0 0 30px #7873f5, 0 0 40px #ff6ec4;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Add new animations */
+@keyframes slideIn {
+  from {
+    transform: translateY(120%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(20%);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeScale {
+  from {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Add container queries for better responsive design */
+@container (min-width: 400px) {
+  .chatbot-messages {
+    gap: 15px;
+  }
+}
+
+/* Use logical properties for better internationalization */
+.chat-message-sent {
+  margin-inline-start: auto;
+}
+
+.chat-message-received {
+  margin-inline-end: auto;
+}
+
+/* Add scroll margin for better scroll behavior */
+.chat-message-div {
+  scroll-margin: 1rem;
+}
+
+/* ==================== */
+/* File Info Chat       */
+/* ==================== */
+.file-info-chat {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 12px;
+  border-radius: 12px;
+  margin-top: 4px;
+  width: 100%;
+  transition: all 0.3s ease;
+}
+
+.chat-message-sent .file-info-chat {
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+}
+
+.chat-message-received .file-info-chat {
+  background: rgba(0, 0, 0, 0.05);
+  color: black;
+}
+
+/* Update PDF icon styling */
+.chat-message-sent .pdf-icon,
+.chat-message-received .pdf-icon {
+  font-size: 32px;
+  color: inherit;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  flex-shrink: 0;
+}
+
+.file-info-content {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+  min-width: 0; /* Ensures proper text truncation */
+}
+
+.file-name-chat {
+  font-weight: 500;
+  word-break: break-all;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.file-size-chat {
+  font-size: 0.8em;
+  opacity: 0.8;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Add hover effect to the entire file info box */
+.file-info-chat:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.file-info-chat:hover .pdf-icon {
+  transform: scale(1.1);
+}

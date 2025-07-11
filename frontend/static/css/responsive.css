@@ -1,0 +1,287 @@
+/* ==================== */
+/* Global Responsive    */
+/* ==================== */
+@media (max-width: 1024px) {
+  /* Adjust chatbot width and height for tablets */
+  .chatbot-container {
+    width: 60% !important;
+    height: 60% !important;
+  }
+}
+
+@media (max-width: 768px) {
+  /* Adjust chatbot width and height for smaller tablets */
+  .chatbot-container {
+    width: 80% !important;
+    height: 70% !important;
+  }
+
+  /* Adjust social icons position */
+  .social-icons {
+    right: 80px;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Common adjustments for mobile devices */
+  .chatbot-container {
+    width: 90% !important;
+    height: 60% !important;
+  }
+
+  .social-icons {
+    display: none;
+  }
+
+  .currency-slide i {
+    font-size: 30px;
+    margin: 0 10px;
+  }
+
+  #chatbot-toggle {
+    width: 50px;
+    height: 50px;
+  }
+
+  .chatbot-header .header-title {
+    font-size: 16px;
+  }
+
+  .chatbot-header .header-subtitle {
+    font-size: 12px;
+  }
+
+  .message-input {
+    min-height: 50px;
+    max-height: 100px;
+  }
+
+  .send-btn {
+    font-size: 28px;
+    padding: 8px;
+  }
+}
+
+@media (max-width: 320px) {
+  /* Further adjustments for very small screens */
+  .currency-slide i {
+    font-size: 24px;
+    margin: 0 8px;
+  }
+
+  #chatbot-toggle {
+    width: 40px;
+    height: 40px;
+  }
+
+  .chatbot-header .header-title {
+    font-size: 14px;
+  }
+
+  .chatbot-header .header-subtitle {
+    font-size: 10px;
+  }
+
+  .message-input {
+    min-height: 40px;
+    max-height: 80px;
+  }
+
+  .send-btn {
+    font-size: 24px;
+    padding: 6px;
+  }
+}
+
+/* ==================== */
+/* Responsive Design    */
+/* ==================== */
+@container (min-width: 400px) {
+  .chatbot-messages {
+    gap: 15px;
+  }
+}
+
+/* Desktop and Large Screens */
+@media (min-width: 1025px) {
+  .chatbot-container {
+    width: calc(40% - 140px);
+    height: calc(70% - 140px);
+    bottom: 100px;
+  }
+
+  .social-icons {
+    right: 120px;
+    bottom: 20px;
+  }
+
+  #chatbot-toggle {
+    width: 60px;
+    height: 60px;
+    bottom: 20px;
+  }
+}
+
+/* Tablets and Small Laptops */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .chatbot-container {
+    width: 70% !important;
+    height: 70% !important;
+    bottom: 90px;
+  }
+
+  .social-icons {
+    right: 100px;
+    bottom: 20px;
+    gap: 15px;
+  }
+
+  .social-icons a {
+    width: 50px;
+    height: 50px;
+    font-size: 24px;
+  }
+}
+
+/* Large Mobile Devices and Small Tablets */
+@media (min-width: 481px) and (max-width: 767px) {
+  .chatbot-container {
+    width: 85% !important;
+    height: 75% !important;
+    bottom: 85px;
+  }
+
+  .social-icons {
+    bottom: 20px;
+    right: 90px;
+    gap: 12px;
+  }
+
+  .social-icons a {
+    width: 45px;
+    height: 45px;
+    font-size: 22px;
+  }
+
+  #chatbot-toggle {
+    width: 50px;
+    height: 50px;
+    bottom: 20px;
+  }
+
+  .currencies-container {
+    font-size: 26px;
+  }
+}
+
+/* Mobile Devices */
+@media (max-width: 480px) {
+  .chatbot-container {
+    width: 92% !important;
+    height: 70% !important;
+    bottom: 80px;
+    right: 50%;
+    transform: translateX(50%);
+  }
+
+  .social-icons {
+    right: auto;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 85px;
+    gap: 15px;
+  }
+
+  .social-icons a {
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+  }
+
+  #chatbot-toggle {
+    width: 45px;
+    height: 45px;
+    bottom: 20px;
+    right: 20px;
+  }
+
+  .currencies-container {
+    font-size: 24px;
+    z-index: -1;
+  }
+
+  /* Adjust chatbot UI elements */
+  .chatbot-header {
+    padding: 10px;
+  }
+
+  .header-title {
+    font-size: 16px;
+  }
+
+  .message-input {
+    min-height: 40px;
+    max-height: 80px;
+    font-size: 14px;
+    padding: 8px;
+  }
+
+  .send-btn {
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+  }
+}
+
+/* Small Mobile Devices */
+@media (max-width: 360px) {
+  .chatbot-container {
+    width: 95% !important;
+    height: 65% !important;
+    bottom: 75px;
+  }
+
+  .social-icons {
+    gap: 12px;
+    bottom: 80px;
+  }
+
+  .social-icons a {
+    width: 35px;
+    height: 35px;
+    font-size: 18px;
+  }
+
+  #chatbot-toggle {
+    width: 40px;
+    height: 40px;
+    right: 15px;
+  }
+}
+
+/* Height-based Adjustments */
+@media (max-height: 600px) {
+  .chatbot-container {
+    height: 80% !important;
+    bottom: 70px;
+  }
+
+  .social-icons {
+    bottom: 75px;
+  }
+
+  #chatbot-toggle {
+    bottom: 15px;
+  }
+}
+
+/* Container Queries for Internal Layout */
+@container (min-width: 400px) {
+  .chatbot-messages {
+    gap: 15px;
+  }
+
+  .message-content {
+    max-width: 80%;
+  }
+}
