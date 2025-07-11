@@ -104,6 +104,11 @@ body {
   contain: content;
 }
 
+.message-input-container.disabled {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
 .chat-messages::-webkit-scrollbar {
   display: none;
 }
@@ -148,6 +153,7 @@ body {
   background: #0570ebc6;
   border: 2px solid rgba(255, 255, 255, 0.15);
   color: var(--text-color);
+  border-radius: 18px;
   border-bottom-right-radius: 4px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
@@ -191,7 +197,7 @@ body {
   resize: none;
   min-height: 30px;
   max-height: 150px;
-  line-height: 1.6;
+  line-height: 1.4;
   padding: 8px 12px;
   outline: none;
   scrollbar-width: none;
@@ -239,13 +245,20 @@ body {
   align-items: center;
   gap: 8px;
   padding: 6px 12px;
-  background: rgba(255, 255, 255, 0.15);
+  background: var(--glass-bg);
   border: 1px solid var(--glass-border);
-  border-radius: 16px;
+  border-radius: 8px;
   font-size: 0.9rem;
   color: var(--text-color);
   animation: slideIn 0.3s ease forwards;
   max-width: 200px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.attached-file:hover {
+  background: rgba(255, 255, 255, 0.18);
+  border-color: rgba(255, 255, 255, 0.3);
 }
 
 .attached-file i {
@@ -270,9 +283,6 @@ body {
   padding: 2px;
   font-size: 0.8rem;
   transition: color 0.2s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 .attached-file .remove-file:hover {
@@ -321,7 +331,7 @@ body {
 }
 
 .action-btn:hover, .social-btn:hover, .send-btn:hover {
-  transform: scale(1.2);
+  transform: translateY(-2px);
   color: var(--border);
 }
 
@@ -347,6 +357,7 @@ body {
   border-radius: 50%;
   margin-left: 4px;
   animation: typingDots 1.2s infinite ease-in-out both;
+  animation-delay: calc(var(--dot-index) * 0.2s); /* Use custom property dynamically via JS */
 }
 
 @keyframes typingDots {

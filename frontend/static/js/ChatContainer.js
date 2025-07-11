@@ -6,10 +6,12 @@ document.addEventListener("DOMContentLoaded", function () {
     attachBtn: document.getElementById("attach-btn"),
     chatMessages: document.getElementById("chat-messages"),
     modelSelect: document.querySelector(".model-select"),
+    messageInputContainer: document.querySelector(".message-input-container")
   };
 
   // Store attached files
   let attachedFiles = [];
+  let isBotTyping = false;
 
   // Bot response templates
   const responses = [
@@ -21,25 +23,16 @@ document.addEventListener("DOMContentLoaded", function () {
     "According to recent market trends, you should know...",
   ];
 
-  // Initialize all event listeners
+  // Initialize event listeners
   function initializeEventListeners() {
-    // Auto-resize textarea and handle input
     elements.userInput.addEventListener("input", handleTextareaResize);
-
-    // Handle keyboard shortcuts
     elements.userInput.addEventListener("keydown", handleKeyPress);
-
-    // Send button click
     elements.sendBtn.addEventListener("click", sendMessage);
-
-    // File attachment
     elements.attachBtn.addEventListener("click", handleFileAttachment);
-
-    // Model selection
     elements.modelSelect.addEventListener("change", handleModelChange);
   }
 
-  // Handle textarea auto-resize
+  // Auto-resize textarea
   function handleTextareaResize() {
     this.style.height = "auto";
     const maxHeight = 150;
@@ -47,7 +40,7 @@ document.addEventListener("DOMContentLoaded", function () {
     this.style.height = newHeight + "px";
   }
 
-  // Handle keyboard input
+  // Handle Enter key
   function handleKeyPress(e) {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
@@ -60,79 +53,74 @@ document.addEventListener("DOMContentLoaded", function () {
     const fileInput = document.createElement("input");
     fileInput.type = "file";
     fileInput.accept = ".txt,.pdf,.doc,.docx,.xls,.xlsx,.csv";
+    fileInput.style.position = 'fixed';
+    fileInput.style.left = '-9999px';
+    fileInput.style.top = '-9999px';
+    fileInput.style.opacity = '0';
+    fileInput.style.pointerEvents = 'none';
 
     fileInput.onchange = async (e) => {
       const file = e.target.files[0];
-      if (!file) return;
+      if (!file) {
+        fileInput.remove();
+        return;
+      }
 
       // Limit to one file
       if (attachedFiles.length >= 1) {
         alert("Only one file can be attached at a time.");
-        return;
-      }
-
-      // Restrict to 5MB max
-      const maxSizeInBytes = 5 * 1024 * 1024; // 5MB
-      if (file.size > maxSizeInBytes) {
+      } else if (file.size > 5 * 1024 * 1024) {
         alert("File size exceeds 5MB limit.");
-        return;
+      } else {
+        const allowedMimeTypes = [
+          "text/plain",
+          "application/pdf",
+          "application/msword",
+          "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+          "application/vnd.ms-excel",
+          "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+          "text/csv",
+        ];
+        if (!allowedMimeTypes.includes(file.type)) {
+          alert("Only text-based files are allowed (.txt, .pdf, .doc, .docx, .xls, .xlsx, .csv).");
+        } else {
+          addAttachedFile(file);
+        }
       }
-
-      // Only allow files that may contain text content
-      const allowedMimeTypes = [
-        "text/plain",
-        "application/pdf",
-        "application/msword",
-        "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-        "application/vnd.ms-excel",
-        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-        "text/csv",
-      ];
-
-      if (!allowedMimeTypes.includes(file.type)) {
-        alert(
-          "Only text-based files are allowed (.txt, .pdf, .doc, .docx, .xls, .xlsx, .csv)."
-        );
-        return;
-      }
-
-      addAttachedFile(file);
+      fileInput.remove();
     };
 
+    document.body.appendChild(fileInput);
     fileInput.click();
   }
 
-  // Add attached file to the input area
+  // Add attached file UI
   function addAttachedFile(file) {
-    // Store the file
     attachedFiles.push(file);
 
-    // Create file indicator element
     const fileIndicator = document.createElement("div");
     fileIndicator.className = "attached-file";
     fileIndicator.innerHTML = `
-    <i class="fa-solid fa-file"></i>
-    <span class="file-name">${file.name}</span>
-    <button class="remove-file" title="Remove file">
-    <i class="fa-solid fa-xmark"></i>
-  </button>
-  `;
+      <i class="fa-solid fa-file"></i>
+      <span class="file-name">${file.name}</span>
+      <button class="remove-file" title="Remove file">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    `;
 
-    // Remove any existing remove listener to avoid duplication
     const removeBtn = fileIndicator.querySelector(".remove-file");
     removeBtn.onclick = () => removeAttachedFile(fileIndicator, file.name);
 
-    // Insert before all other elements inside right-actions
     const rightActions = document.querySelector(".right-actions");
     rightActions.insertBefore(fileIndicator, rightActions.firstChild);
   }
 
   // Remove attached file
   function removeAttachedFile(fileElement, fileName) {
-    // Remove from array
     attachedFiles = attachedFiles.filter((file) => file.name !== fileName);
-    // Remove from UI
-    fileElement.remove();
+    if (fileElement && fileElement.parentNode) {
+      fileElement.remove();
+    }
   }
 
   // Handle model selection
@@ -141,18 +129,31 @@ document.addEventListener("DOMContentLoaded", function () {
     console.log(`Switched to model: ${selectedModel}`);
   }
 
-  // Send message function
+  // Disable user input
+  function disableUserInput(disabled = true) {
+    elements.userInput.disabled = disabled;
+    elements.sendBtn.disabled = disabled;
+    elements.attachBtn.disabled = disabled;
+
+    if (disabled) {
+      elements.messageInputContainer.classList.add("disabled");
+    } else {
+      elements.messageInputContainer.classList.remove("disabled");
+    }
+  }
+
+  // Send message
   function sendMessage() {
+    if (isBotTyping) return;
+
     const message = elements.userInput.value.trim();
 
-    // Check if we have message or files
     if (!message && attachedFiles.length === 0) return;
 
-    // Create message content
+    disableUserInput(true);
+
     let messageContent = message;
 
-    // Add attached files to message
-    // Add attached files to message
     if (attachedFiles.length > 0) {
       const filesList = attachedFiles
         .map((file) => `<i class="fa-solid fa-file"></i> ${file.name}`)
@@ -162,27 +163,22 @@ document.addEventListener("DOMContentLoaded", function () {
         : filesList;
     }
 
-    // Add message to chat
     addMessage(messageContent, true);
 
-    // Clear input and files
     elements.userInput.value = "";
     elements.userInput.style.height = "auto";
     clearAttachedFiles();
 
-    // Simulate bot response
     simulateBotResponse();
   }
 
-  // Clear all attached files
+  // Clear attached files
   function clearAttachedFiles() {
     attachedFiles = [];
-    // Remove all file indicators
-    const fileIndicators = document.querySelectorAll(".attached-file");
-    fileIndicators.forEach((indicator) => indicator.remove());
+    document.querySelectorAll(".attached-file").forEach(el => el.remove());
   }
 
-  // Optimized message creation
+  // Add message to chat
   function addMessage(content, isUser) {
     const timestamp = new Date().toLocaleTimeString("en-US", {
       hour12: false,
@@ -191,22 +187,22 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     const messageHTML = `
-  <div class="message ${isUser ? "user-message" : "bot-message"}">
-    <div class="message-content">${content}</div>
-    <div class="message-timestamp">${timestamp}</div>
-  </div>
-`;
+      <div class="message ${isUser ? "user-message" : "bot-message"}">
+        <div class="message-content">${content}</div>
+        <div class="message-timestamp">${timestamp}</div>
+      </div>
+    `;
 
     elements.chatMessages.insertAdjacentHTML("beforeend", messageHTML);
     scrollToBottom();
   }
 
-  // Optimized scroll function
+  // Scroll to bottom
   function scrollToBottom() {
     elements.chatMessages.scrollTop = elements.chatMessages.scrollHeight;
   }
 
-  // Optimized typing indicator
+  // Show typing indicator
   function showTypingIndicator() {
     const typingHTML = `
       <div class="typing-indicator">
@@ -219,8 +215,9 @@ document.addEventListener("DOMContentLoaded", function () {
     return elements.chatMessages.lastElementChild;
   }
 
-  // Simulate bot response with random delay
+  // Simulate bot response
   function simulateBotResponse() {
+    isBotTyping = true;
     const typingIndicator = showTypingIndicator();
     const responseDelay = 1500 + Math.random() * 2000;
 
@@ -228,9 +225,12 @@ document.addEventListener("DOMContentLoaded", function () {
       typingIndicator.remove();
       const response = responses[Math.floor(Math.random() * responses.length)];
       addMessage(response, false);
+
+      disableUserInput(false);
+      isBotTyping = false;
     }, responseDelay);
   }
 
-  // Initialize the application
+  // Start app
   initializeEventListeners();
 });
