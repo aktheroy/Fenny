@@ -25,11 +25,19 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Initialize event listeners
   function initializeEventListeners() {
-    elements.userInput.addEventListener("input", handleTextareaResize);
+    elements.userInput.addEventListener("input", debounce(handleTextareaResize, 50));
     elements.userInput.addEventListener("keydown", handleKeyPress);
     elements.sendBtn.addEventListener("click", sendMessage);
     elements.attachBtn.addEventListener("click", handleFileAttachment);
     elements.modelSelect.addEventListener("change", handleModelChange);
+  }
+
+  function debounce(fn, delay) {
+    let timer = null;
+    return function (...args) {
+      clearTimeout(timer);
+      timer = setTimeout(() => fn.apply(this, args), delay);
+    };
   }
 
   // Auto-resize textarea
@@ -94,14 +102,24 @@ document.addEventListener("DOMContentLoaded", function () {
     fileInput.click();
   }
 
+  function getFileIcon(fileName) {
+    const ext = fileName.split('.').pop().toLowerCase();
+    if (["pdf"].includes(ext)) return "fa-file-pdf";
+    if (["doc", "docx"].includes(ext)) return "fa-file-word";
+    if (["xls", "xlsx", "csv"].includes(ext)) return "fa-file-excel";
+    if (["txt"].includes(ext)) return "fa-file-lines";
+    return "fa-file";
+  }
+
   // Add attached file UI
   function addAttachedFile(file) {
     attachedFiles.push(file);
 
     const fileIndicator = document.createElement("div");
     fileIndicator.className = "attached-file";
+    const iconClass = getFileIcon(file.name);
     fileIndicator.innerHTML = `
-      <i class="fa-solid fa-file"></i>
+      <i class="fa-solid ${iconClass}"></i>
       <span class="file-name">${file.name}</span>
       <button class="remove-file" title="Remove file">
         <i class="fa-solid fa-xmark"></i>
@@ -147,24 +165,30 @@ document.addEventListener("DOMContentLoaded", function () {
     if (isBotTyping) return;
 
     const message = elements.userInput.value.trim();
-
     if (!message && attachedFiles.length === 0) return;
 
     disableUserInput(true);
 
-    let messageContent = message;
-
+    let messageContent = "";
+    
+    // Combine file and message in one content
     if (attachedFiles.length > 0) {
-      const filesList = attachedFiles
-        .map((file) => `<i class="fa-solid fa-file"></i> ${file.name}`)
-        .join("<br>");
-      messageContent = messageContent
-        ? `${messageContent}<br><br>${filesList}`
-        : filesList;
+      const file = attachedFiles[0];
+      const iconClass = getFileIcon(file.name);
+      messageContent = `
+        <div class="attached-file">
+          <i class="fa-solid ${iconClass}"></i>
+          <span class="file-name">${file.name}</span>
+        </div>
+      `;
+    }
+
+    if (message) {
+      messageContent += `<div class="message-text">${message}</div>`;
     }
 
     addMessage(messageContent, true);
-
+    
     elements.userInput.value = "";
     elements.userInput.style.height = "auto";
     clearAttachedFiles();
@@ -178,23 +202,54 @@ document.addEventListener("DOMContentLoaded", function () {
     document.querySelectorAll(".attached-file").forEach(el => el.remove());
   }
 
-  // Add message to chat
-  function addMessage(content, isUser) {
-    const timestamp = new Date().toLocaleTimeString("en-US", {
+  // Load chat history from localStorage
+  function loadChatHistory() {
+    const history = JSON.parse(localStorage.getItem("fenny_chat_history") || "[]");
+    history.forEach(msg => {
+      addMessage(msg.content, msg.isUser, msg.timestamp, true);
+    });
+  }
+
+  // Save chat history to localStorage
+  function saveMessageToHistory(content, isUser, timestamp) {
+    const history = JSON.parse(localStorage.getItem("fenny_chat_history") || "[]");
+    history.push({ content, isUser, timestamp });
+    localStorage.setItem("fenny_chat_history", JSON.stringify(history));
+  }
+
+  // Clear chat history (optional utility)
+  function clearChatHistory() {
+    localStorage.removeItem("fenny_chat_history");
+  }
+
+  // Modify addMessage to accept timestamp and skip saving if loading history
+  function addMessage(content, isUser, timestamp = null, skipSave = false) {
+    timestamp = timestamp || new Date().toLocaleTimeString("en-US", {
       hour12: false,
       hour: "2-digit",
       minute: "2-digit",
     });
 
+    const htmlContent = renderMarkdown(content);
+
     const messageHTML = `
       <div class="message ${isUser ? "user-message" : "bot-message"}">
-        <div class="message-content">${content}</div>
+        <div class="message-content">${htmlContent}</div>
         <div class="message-timestamp">${timestamp}</div>
       </div>
     `;
-
+    
     elements.chatMessages.insertAdjacentHTML("beforeend", messageHTML);
+
+    // Keep only last 100 messages in DOM
+    const msgs = elements.chatMessages.querySelectorAll(".message");
+    if (msgs.length > 100) {
+      msgs[0].remove();
+    }
+
     scrollToBottom();
+
+    if (!skipSave) saveMessageToHistory(content, isUser, timestamp);
   }
 
   // Scroll to bottom
@@ -231,6 +286,44 @@ document.addEventListener("DOMContentLoaded", function () {
     }, responseDelay);
   }
 
+  // Render markdown-like syntax to HTML
+  function renderMarkdown(text) {
+    if (!text) return "";
+    // Basic replacements: **bold**, *italic*, `code`, [text](url)
+    return text
+      .replace(/`([^`]+)`/g, '<code>$1</code>')
+      .replace(/\*\*([^*]+)\*\*/g, '<b>$1</b>')
+      .replace(/\*([^*]+)\*/g, '<i>$1</i>')
+      .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>')
+      .replace(/\n/g, "<br>");
+  }
+
   // Start app
   initializeEventListeners();
+  loadChatHistory();
+
+  document.getElementById("clear-chat-btn").onclick = function() {
+    if (confirm("Clear all chat history?")) {
+      clearChatHistory();
+      elements.chatMessages.innerHTML = "";
+    }
+  };
+
+  document.getElementById("download-chat-btn").onclick = function() {
+    const history = JSON.parse(localStorage.getItem("fenny_chat_history") || "[]");
+    let text = history.map(msg =>
+      (msg.isUser ? "You: " : "Fenny: ") + msg.content.replace(/<[^>]+>/g, '')
+    ).join("\n\n");
+    const blob = new Blob([text], {type: "text/plain"});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "fenny_chat.txt";
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(() => {
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }, 0);
+  };
 });
