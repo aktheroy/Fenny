@@ -1,7 +1,10 @@
 :root {
     --primary-color: #00c8ff;
     --background-color: #0c42af;
+    --hover-color: #00ffff;
     --icon-size: clamp(2rem, 4vw, 4rem);
+    --slide-duration: 200s;
+    --edge-fade-width: min(150px, 15vw);
 }
 
 * {
@@ -21,8 +24,8 @@ body {
 .currencies-container {
     position: fixed;
     inset: 0;
-    width: 100vw;
-    height: 100vh;
+    width: 100%;
+    height: 100%;
     contain: strict;
     will-change: transform;
     z-index: 1;
@@ -45,7 +48,7 @@ body {
     content: "";
     position: absolute;
     top: 0;
-    width: min(150px, 15vw);
+    width: var(--edge-fade-width);
     height: 100%;
     z-index: 2;
     pointer-events: none;
@@ -65,10 +68,9 @@ body {
 /* Sliding wrapper */
 .currency-slide {
     display: inline-flex;
-    animation: slide 200s linear infinite;
+    animation: slide var(--slide-duration) linear infinite;
     will-change: transform;
     backface-visibility: hidden;
-    transform-style: preserve-3d;
 }
 
 .currency-slide.reverse {
@@ -80,26 +82,24 @@ body {
     font-size: var(--icon-size);
     margin: 0 clamp(1rem, 2vw, 2rem);
     color: var(--primary-color);
-    transition: 
-        transform 0.2s cubic-bezier(0.18, 0.89, 0.32, 1.28),
-        color 0.15s ease;
-    will-change: transform, color;
-    transform: translateZ(0);
     padding: 0.5rem;
+    transform: translateZ(0);
+    transition: transform 0.2s cubic-bezier(0.18, 0.89, 0.32, 1.28),
+                color 0.15s ease;
 }
 
 .currency-slide i:hover {
-    transform: scale(1.2) translateZ(0);
-    color: var(--hover-color, #00ffff);
+    transform: scale(1.2);
+    color: var(--hover-color);
 }
 
 /* Animation definition */
 @keyframes slide {
     from {
-        transform: translate3d(0, 0, 0);
+        transform: translateX(0);
     }
     to {
-        transform: translate3d(-50%, 0, 0);
+        transform: translateX(-50%);
     }
 }
 

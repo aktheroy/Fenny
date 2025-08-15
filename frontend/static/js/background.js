@@ -8,7 +8,7 @@ const CONFIG = {
   ]
 };
 
-// Currency icons
+// Currency icons (Font Awesome classes)
 const ICONS = [
   '<i class="fas fa-dollar-sign"></i>',
   '<i class="fas fa-euro-sign"></i>',
@@ -37,40 +37,46 @@ function shuffleArray(array) {
 }
 
 /**
+ * Creates a single currency row element
+ * @param {boolean} reverse - If true, reverses animation direction
+ * @returns {HTMLElement} Row element
+ */
+function createCurrencyRow(reverse) {
+  const row = document.createElement("div");
+  row.className = "currency";
+
+  const slide = document.createElement("div");
+  slide.className = `currency-slide${reverse ? " reverse" : ""}`;
+
+  // Build icons efficiently
+  const shuffledIcons = shuffleArray(ICONS).join("");
+  slide.innerHTML = shuffledIcons.repeat(CONFIG.REPEAT_COUNT);
+
+  row.appendChild(slide);
+  return row;
+}
+
+/**
  * Generate and insert currency rows into the container
  */
-function generateCurrencyRows() {
-  const container = document.getElementById("currencies-container");
-  if (!container) return;
-
+function generateCurrencyRows(container) {
   const fragment = document.createDocumentFragment();
-
   for (let i = 0; i < CONFIG.ROW_COUNT; i++) {
-    const row = document.createElement("div");
-    row.className = "currency";
-
-    const slide = document.createElement("div");
-    slide.className = `currency-slide ${i % 2 === 0 ? "" : "reverse"}`;
-    slide.innerHTML = shuffleArray(ICONS).join("").repeat(CONFIG.REPEAT_COUNT);
-
-    row.appendChild(slide);
-    fragment.appendChild(row);
+    fragment.appendChild(createCurrencyRow(i % 2 !== 0));
   }
-
   container.appendChild(fragment);
 }
 
 /**
- * Initialize hover effects with color change
+ * Initialize hover effects with random color change
  */
-function initializeHoverEffects() {
-  const container = document.getElementById("currencies-container");
-  if (!container) return;
+function initializeHoverEffects(container) {
+  const colors = CONFIG.COLORS;
+  const colorsLen = colors.length;
 
-  // Use event delegation
   container.addEventListener("mouseover", (e) => {
     if (e.target.matches(".currency-slide i")) {
-      const randomColor = CONFIG.COLORS[Math.floor(Math.random() * CONFIG.COLORS.length)];
+      const randomColor = colors[(Math.random() * colorsLen) | 0];
       e.target.style.setProperty("--hover-color", randomColor);
     }
   });
@@ -82,8 +88,11 @@ function initializeHoverEffects() {
   });
 }
 
-// Initialize on DOM load
+// Initialize once DOM is ready
 document.addEventListener("DOMContentLoaded", () => {
-  generateCurrencyRows();
-  initializeHoverEffects();
+  const container = document.getElementById("currencies-container");
+  if (!container) return;
+
+  generateCurrencyRows(container);
+  initializeHoverEffects(container);
 });
